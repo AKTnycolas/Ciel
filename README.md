@@ -1,2 +1,2 @@
 # legends-of-idleon-bot
-Bot for the game lendas de idleon
+Bot for legends of idleon game
