@@ -9,11 +9,10 @@
   "dependencies": {
     "discord.js": "^13.2.0",
     "dotenv": "^10.0.0",
-    "moment": "^2.29.1",
     "npm": "^8.1.0",
     "fs": "^0.0.2",
-    "winston": "^3.3.3",
-    "common-tags": "^1.8.0"
+    "common-tags": "^1.8.0",
+    "mongoose": "^5.13.4"
   },
   "engines": {
     "node": "16.6.1"
