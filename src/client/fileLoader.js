@@ -10,7 +10,7 @@ module.exports = {
     
     await pastas.forEach(p => {
       readdir(`./src/commands/${p}`, (err, commands) => {
-        if (err) throw "(LOADFILES): " + err
+        if (err) throw "([LOADFILES] - " + err
         
         commands.forEach(file => {
           const archive = require(`../commands/${p}/${file}`);
@@ -23,7 +23,7 @@ module.exports = {
             client.aliases.set(alias, cmdName);
           });
           delete require.cache[require.resolve(`../commands/${p}/${file}`)];
-          console.log(`(COMANDOS): foram carregados ${commands.length} de comandos na pasta ${p}`);
+          console.log(`[COMANDOS] - foram carregados ${commands.length} comandos na pasta ${p}`);
         });
       });
     });
@@ -31,7 +31,7 @@ module.exports = {
     //--------------------EVENTOS--------------------//
     
     await readdir("./src/client/events", (err, events) => {
-      if (err) throw "(LOADFILES): " + err
+      if (err) throw "[LOADFILES] - " + err
       
       events.forEach(event => {
         const file = require(`./events/${event}`);
@@ -44,7 +44,7 @@ module.exports = {
         }
         
         delete require.cache[require.resolve(`../client/events/${event}`)];
-        console.log(`(EVENTOS): O evento ${eventName} foi carregado com sucesso`);
+        console.log(`[EVENTOS] - O evento ${eventName} foi carregado`);
       });
     });
   }
