@@ -1,20 +1,20 @@
 const { MessageEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { loading } = require("../../utils/emojis");
+const Emojis = require("../../utils/emojis");
 const User = require("../../database/Schemas/User");
 
 exports.run = async (client, message, args) => {
   const embed = new MessageEmbed().setColor(process.env.colorEmbed);
-  const emojiCarrying = client.emojis.cache.get(loading);
+  const emojiLoading = client.emojis.cache.get(Emojis.loading);
   
   const startTime = process.hrtime();
-  await User.findOne({ _id: message.author.id });
+  await User.findOne({ _id: message.author.id }, (err, user) => {});
   const stopTime = process.hrtime(startTime);
 
   const pingDB = Math.round((stopTime[0] * 1e9 + stopTime[1]) / 1e6) + "ms";  
 
   const m = await message.reply({
-    embeds: [embed.setDescription(`${emojiCarrying}`)]
+    embeds: [embed.setDescription(`${emojiLoading}`)]
   });
 
   const pings = stripIndents`
@@ -29,5 +29,8 @@ exports.run = async (client, message, args) => {
 
 module.exports.help = {
   name: "ping",
-  aliases: ["pong", "ws", "ping-pong"]
+  description: "Veja os meus pings",
+  aliases: ["pong", "ws", "ping-pong"],
+  usage: "<prefix>ping",
+  category: "Information"
 };

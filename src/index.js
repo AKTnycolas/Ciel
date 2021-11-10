@@ -1,11 +1,13 @@
 const { Client } = require("discord.js");
+const fetch = require("node-fetch");
 require("dotenv").config();
 
-const pastas = ["Information", "Owners", "Config"];
+const pastas = ["Information", "Owner", "Config"];
 
 async function start() {
   try {
-    const client = new Client({ intents: 23323 });
+    const client = new Client({ intents: 2047 });
+    global.fetch = fetch;
 
     await require("./client/fileLoader").start(client, pastas);
     await require("./database/index").start();

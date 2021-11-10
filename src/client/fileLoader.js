@@ -23,8 +23,8 @@ module.exports = {
             client.aliases.set(alias, cmdName);
           });
           delete require.cache[require.resolve(`../commands/${p}/${file}`)];
-          console.log(`[COMANDOS] - foram carregados ${commands.length} comandos na pasta ${p}`);
         });
+        console.log(`[COMANDOS] - foram carregados ${commands.length} comandos na pasta ${p}`);
       });
     });
 
