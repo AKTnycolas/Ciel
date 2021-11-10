@@ -3,6 +3,7 @@ const User = require("../../database/Schemas/User");
 
 module.exports = (client, message) => {
   if (message.author.bot) return;
+  if (message.channel.type == "dm") return;
 
   Guild.findOne({ _id: message.guild.id }, (err, server) => {
     if (err) return console.log("[MESSAGE-CREATE] - " + err);
@@ -30,7 +31,7 @@ module.exports = (client, message) => {
             );
             if (commandFile) commandFile.run(client, message, args, { server, user });
           } catch (err) {
-            console.log("[EVENT-MESSAGE] - " + err);
+            console.log("[EVENT-MESSAGE] - " + err.stack);
           }
         } else {
           await User.create({ _id: message.author.id }, err => {

@@ -1,3 +1,22 @@
 module.exports = {
-  loading: "900492097361166336"
+  "loading": "900492097361166336",
+  "next": "<:button_next:902964116883378196>",
+  "back": "<:button_back:902963886272155698>",
+  "linkInvite": "<:linkInvite:907360710546317334>",
+  
+  // discord badges
+  "DISCORD_EMPLOYEE": "<:discord_employee:904835256962674712>",
+  "TEAM_USER": "<:discord_team:905019406160117821>",
+  "PARTNERED_SERVER_OWNER": "<:discord_partner:904835160216858674>",
+  "DISCORD_CERTIFIED_MODERATOR": "<:discord_moderator:904835241510830122>",
+  "EARLY_VERIFIED_BOT_DEVELOPER": "<:developer:904834867076948108>",
+  "BUGHUNTER_LEVEL_1": "<:bughunter_lvl1:904843502003814441>",
+  "BUGHUNTER_LEVEL_2": "<:bughunter_lvl2:904835272540291082>",
+  "HOUSE_BRILLIANCE": "<:Brilliance:904825142570532904>",
+  "HOUSE_BRAVERY": "<:Bravery:904825128309907538>",
+  "DISCOR_BOOST": "<:boost:904835204307361822>",
+  "HOUSE_BALANCE": "<:Balance:904825156118138950>",
+  "HYPESQUAD_EVENTS": "<:hypesquad_events:905013335878160395>",
+  "EARLY_SUPPORTER": "<:early_supporter:905013368832819221>",
+  "VERIFIED_BOT": "<:bot_verified:905019666584449055>"
 };

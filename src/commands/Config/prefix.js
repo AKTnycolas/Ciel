@@ -64,5 +64,8 @@ exports.run = async (client, message, args, { server }) => {
 
 module.exports.help = {
   name: "prefix",
-  aliases: ["prefixo", "reset-prefix"]
+  description: "Altere o meu prefixo",
+  aliases: ["prefixo", "reset-prefix"],
+  usage: "<prefix>prefix\n<prefix>prefix [prefixo]\n<prefix>prefix reset",
+  category: "Config"
 };
