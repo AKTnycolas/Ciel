@@ -1,9 +1,8 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const { stripIndents } = require("common-tags");
 const { dateAndDay } = require("../../utils/plugins/dates");
-const { get } = require("../../utils/acronyms");
-const { serverinfo } = require("../../utils/plugins/buttons");
-const { rowNext, rowBack } = serverinfo();
+const acro = require("../../utils/acronyms");
+const Emojis = require("../../utils/emojis");
 
 exports.run = async (client, message, args, { server }) => {
   
@@ -11,11 +10,15 @@ exports.run = async (client, message, args, { server }) => {
   const guild = message.guild;
   const icon = guild.iconURL({ dynamic: true });
   const color = process.env.colorEmbed;
+  
+  const get = (id) => {
+    return client.emojis.cache.filter(x => x.id == id).first();
+  };
   //-------------------------------------------------------------// 
   
   //-------------------EMBED1 VARIABLES--------------------------// 
   const owner = client.users.cache.get(guild.ownerId).tag;
-  const mainLanguage = get(guild.preferredLocale);
+  const mainLanguage = acro.get(guild.preferredLocale);
   const myEntry = dateAndDay({
     date: guild.members.cache.get(client.user.id).joinedAt,
     days: true
@@ -32,14 +35,20 @@ exports.run = async (client, message, args, { server }) => {
     ? "Nenhum Boost"
     : `**${guild.premiumSubscriptionCount}** Boosts ( ${guild.premiumTier} )`;
 
-  const createdAt = dateAndDay(guild.createdAt, { days: true });
+  const createdAt = dateAndDay({
+    date: guild.createdAt,
+    days: true
+  });
 
   let vLevel = guild.verificationLevel;
-  if (vLevel == "NOME") vLevel = "Nenhum";
-  else if (vLevel == "LOW") vLevel = "Baixo";
-  else if (vLevel == "MEDIUM") vLevel = "Médio";
-  else if (vLevel == "HIGH") vLevel = "Alto";
-  else vLevel = "Muito Alto";
+  
+  switch (vLevel) {
+    case (vLevel === "NOME"): vLevel == "Nenhum"; break;
+    case (vLevel === "LOW"): vLevel == "Baixo"; break;
+    case (vLevel === "MEDIUM"): vLevel == "Médio"; break;
+    case (vLevel === "HIGH"): vLevel == "Alto"; break;
+    default: vLevel = "Muito Alto"; break;
+  };
 
   const channels = guild.channels.cache;
   const channelServer = [
@@ -70,27 +79,23 @@ exports.run = async (client, message, args, { server }) => {
     emojis.filter(x => x.animated).size,
     emojis.filter(x => x.animated == false).size
   ];
-
-  const someEmojis =
-    `${emojis.map(x => x).slice(0, 26).join("**|**")}`||
-    "Nenhum Emoji Encontrado";
+  
+  const someEmojis = emojis.size >= 1
+    ? `${emojis.map(x => x).slice(0, 26).join("**|**")}`
+    : "Nenhum Emoji Encontrado";
   //-------------------------------------------------------------// 
   
   
   
-  
-  
   //-------------------------EMBEDS------------------------------// 
-  
   const pag1 = new MessageEmbed()
     .setAuthor(guild.name, icon)
     .setThumbnail(icon)
-    .addField("Nome: ", `${guild.name}`)
-    .addField("Dono(a): ", `${owner}`)
-    .addField("Idioma: ", `${mainLanguage}`)
-    .addField("Meu prefixo: ", `**${server.prefix}**`)
-    .addField("Minha Entrada: ", myEntry)
-    .addField("Sua Entrada: ", yourEntry)
+    .addField(`${get(Emojis.name)} Nome: `, `${guild.name}`)
+    .addField(`${get(Emojis.coroa)} Dono(a): `, `${owner}`)
+    .addField(`${get(Emojis.world)} Idioma: `, `${mainLanguage}`)
+    .addField(`${get(Emojis.door)} Minha Entrada: `, myEntry)
+    .addField(`${get(Emojis.door)} Sua Entrada: `, yourEntry)
     .setColor(color)
     .setTimestamp()
     .setFooter("Pág: 1/2");
@@ -99,11 +104,11 @@ exports.run = async (client, message, args, { server }) => {
   const pag2 = new MessageEmbed()
     .setAuthor(guild.name, icon)
     .setThumbnail(icon)
-    .addField("Id: ", `${guild.id}`)
-    .addField("Boosts: ", `${totalBoost}`)
-    .addField("Criado Em: ", `${createdAt}`)
-    .addField("Nível de Verificação: ", `${vLevel}`)
-    .addField("Canais: ", stripIndents`\`\`\`
+    .addField(":1234: Id: ", `${guild.id}`)
+    .addField(`${get("904835204307361822")} Boosts: `, `${totalBoost}`)
+    .addField(":date: Criado Em: ", `${createdAt}`)
+    .addField(`${get(Emojis.shield)} Nível de Verificação: `, `${vLevel}`)
+    .addField(`${get(Emojis.channel)} Canais: `, stripIndents`\`\`\`
     Total: ${channelServer[0]}
     Cartegorias: ${channelServer[1]}
     Texto: ${channelServer[2]}
@@ -111,7 +116,7 @@ exports.run = async (client, message, args, { server }) => {
     \`\`\`
     `
     )
-    .addField("Presenças: ", stripIndents`\`\`\`
+    .addField(`${get(Emojis.online)} Presenças: `, stripIndents`\`\`\`
     Onlines: ${statuServer[0]}
     Ausentes: ${statuServer[1]}
     Não Pertube: ${statuServer[2]}
@@ -119,14 +124,14 @@ exports.run = async (client, message, args, { server }) => {
     \`\`\`
     `
     )
-    .addField("Membros: ", stripIndents`\`\`\`
+    .addField(`${get("909892224362369086")} Membros: `, stripIndents`\`\`\`
     Total: ${memberServer[0]}
     Humanos: ${memberServer[2]}
     Bots: ${memberServer[1]}
     \`\`\`
     `
     )
-    .addField("Emojis: ", stripIndents`\`\`\`
+    .addField(`${get("902892025307889664")} Emojis: `, stripIndents`\`\`\`
     Total: ${emojiServer[0]}
     Animados: ${emojiServer[1]}
     Inanimados: ${emojiServer[2]}
@@ -137,51 +142,75 @@ exports.run = async (client, message, args, { server }) => {
     .setColor(color)
     .setTimestamp()
     .setFooter("Pág: 2/2");
+  
+  const rowNext = new MessageActionRow();
+  const rowBack = new MessageActionRow();
+  
+  const buttonNext = new MessageButton()
+    .setCustomId("next")
+    .setEmoji(Emojis.next)
+    .setStyle("PRIMARY");
+    
+    const buttonBack = new MessageButton()
+    .setCustomId("back")
+    .setEmoji(Emojis.back)
+    .setStyle("PRIMARY");
 
+  rowNext.addComponents([
+    buttonNext.setDisabled(false),
+    buttonBack.setDisabled(true)
+  ]);
+  
+  rowBack.addComponents([
+    buttonNext.setDisabled(true),
+    buttonBack.setDisabled(false)
+  ]);
+  
   const msg = await message.reply({
     embeds: [pag1],
     components: [rowNext]
   });
-  //-------------------------------------------------------------// 
-
+  //-------------------------------------------------------------//
   
-  //--------------------------COLLECTOR--------------------------// 
-  const filter = async i => {
-    if (i.user.id === message.author.id) return true;
-    else {
-      await i.reply({
+  
+  
+  //------------------------COLLECTOR----------------------------//
+  const filter = async (i) => {
+    return i.isButton() && i.message.id === msg.id;
+  };
+  
+  const collector = msg.createMessageComponentCollector({
+    filter: filter,
+    time: 45000,
+  });
+  
+  collector.on("collect", async (i) => {
+    if (i.user.id !== message.author.id)
+      return i.reply({
         content: "Só apenas quem executou o comando pode interagir com ele",
         ephemeral: true
       });
-    }
-  };
-
-  const collector = message.channel.createMessageComponentCollector({
-    filter,
-    time: 25000
-  });
-
-  collector.on("collect", async i => {
-    if (i.customId === "nextFromServerinfo") {
-      await i.update({
+    
+    if (i.customId === "next") {
+      await msg.edit({
         embeds: [pag2],
         components: [rowBack]
-      });
-    } else if (i.customId === "backFromServerinfo") {
-      await i.update({
+      }).catch(o_O => o_O);
+    } else if (i.customId === "back") {
+      await msg.edit({
         embeds: [pag1],
         components: [rowNext]
-      });
+      }).catch(o_O => o_O);
     }
   });
-
+  
   collector.on("end", async () => {
     await msg.edit({
-      embeds: [pag1.setFooter("Tempo de Interação Acabado")],
+      embeds: [pag1.setFooter("Tempo de interação acabado.")],
       components: []
-    });
+    }).catch(o_O => o_O);
   });
-  //-------------------------------------------------------------// 
+  //-------------------------------------------------------------//
 };
 
 
@@ -189,6 +218,6 @@ module.exports.help = {
   name: "serverinfo",
   description: "Veja as informações desse servidor",
   aliases: ["server", "info-server"],
-  usage: "<prefix>serverinfo",
+  usage: "serverinfo",
   category: "Information"
 };

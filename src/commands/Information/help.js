@@ -1,14 +1,30 @@
 const { MessageEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
+const Emojis = require("../../utils/emojis");
 
-exports.run = async (client, message, args) => {
-  
+exports.run = async (client, message, args, { server }) => {
   //---------------------COMMAND VARIABLES-----------------------//
   const icon = client.user.displayAvatarURL({ dynamic: true });
+
+  const get = id => {
+    return client.emojis.cache.filter(x => x.id == id).first();
+  };
+
+  const embed = new MessageEmbed()
+    .setAuthor("Central De Comandos", icon)
+    .setColor(process.env.colorEmbed);
+
+  const categorys = {
+    Config: "Configurações",
+    Information: "Informações",
+    Owner: "Owner",
+    Utils: "Utils"
+  };
 
   let Config = [];
   let Information = [];
   let Owner = [];
+  let Utils = [];
 
   client.commands
     .map(cmd => cmd)
@@ -18,67 +34,86 @@ exports.run = async (client, message, args) => {
       if (category == "Config") Config.push(name);
       if (category == "Information") Information.push(name);
       if (category == "Owner") Owner.push(name);
+      if (category == "Utils") Utils.push(name);
     });
-
-  const categorys = {
-    Config: "Configurações",
-    Information: "Informações",
-    Owner: "Owner"
-  };
-
-  const embed = new MessageEmbed()
-    .setAuthor("Central De Comandos", icon)
-    .setColor(process.env.colorEmbed);
-  //.setTimestamp();
   //-------------------------------------------------------------//
-  
-  
-  
+
   //--------------------------COMMAND----------------------------//
   if (args[0]) {
     const cmd = client.commands.get(client.aliases.get(args[0]) || args[0]);
-    const { name, description, aliases, usage } = cmd.help;
-    embed
-      .addField("Nome Original: ", name)
-      .addField("Descrição: ", description)
-      .addField("Aliases: ", aliases.join(", "))
-      .addField("Modo de Usar: ", usage);
 
-    return message.reply({
-      embeds: [embed]
-    });
-  } else {
-    embed
-      .setDescription(stripIndents`
-        Procurando algum comando?, Aqui 
-        estão todos eles:
-        ㅤ
-        `)
-      .addField(
-        `Configuração: (${Config.length})`,
-        `\`\`\`${Config.sort().join(" - ")}\`\`\``
-      )
-      .addField(
-        `Informação: (${Information.length})`,
-        `\`\`\`${Information.sort().join(" - ")}\`\`\``
-      )
-      .addField(
-        `Owners: (${Owner.length})`,
-        `\`\`\`${Owner.sort().join(" - ")}\`\`\``
-      );
+    if (cmd) {
+      // if the command is restricted
+      if (
+        cmd.help.category === "Owner" &&
+        message.author.id !== process.env.ownerId
+      ) {
+        embed.setDescription(`O comando **${args[0]}** não foi encontrado.`);
+        return message.reply({
+          embeds: [embed]
+        });
+      }
 
-    return message.reply({
-      embeds: [embed]
-    });
+      // command alone
+      const { name, description, aliases, usage } = cmd.help;
+
+      embed
+        .addField("Nome Original: ", name)
+        .addField("Descrição: ", description)
+        .addField("Aliases: ", aliases.join(", ") || "Não tem aliases")
+        .addField("Modo de Usar: ", server.prefix + usage);
+
+      return message.reply({
+        embeds: [embed]
+      });
+    } else {
+      // if you don't find the command
+      embed.setDescription(`O comando **${args[0]}** não foi encontrado.`);
+      return message.reply({
+        embeds: [embed]
+      });
+    }
   }
 
-  //-------------------------------------------------------------//
+  // just help
+  embed
+    .setDescription(stripIndents`
+    Olá, aqui estão todos os meu comandos
+    somando um total de **${client.commands.size}**, caso encontre
+    algum bug, use o comando **bugreport**, caso
+    queria deixar uma sugestão use o comando **suggestion**
+        ㅤ
+    `)
+    .addField(
+      `${get(Emojis.settingsId)} Configuração: (${Config.length})`,
+      `\`\`\`\n${Config.sort().join(" - ")}\`\`\``
+    )
+    .addField(
+      `${get(Emojis.information)} Informação: (${Information.length})`,
+      `\`\`\`\n${Information.sort().join(" - ")}\`\`\``
+    )
+    .addField(
+      `${get(Emojis.utils)} Utils: (${Utils.length})`,
+      `\`\`\`\n${Utils.sort().join(" - ")}\`\`\``
+    );
+
+  // in case it's me
+  if (message.author.id == process.env.ownerId)
+    embed.addField(
+      `${get(Emojis.coroa)} Owners: (${Owner.length})`,
+      `\`\`\`\n${Owner.sort().join(" - ")}\`\`\``
+    );
+
+  return message.reply({
+    embeds: [embed]
+  });
 };
+//-------------------------------------------------------------//
 
 exports.help = {
   name: "help",
   description: "Veja a minha lista de Comandos",
-  aliases: ["commands", "help-commands", "all-commands"],
-  usafe: "<prefix>help <command>",
+  aliases: ["commands"],
+  usage: `help <command>`,
   category: "Information"
 };
