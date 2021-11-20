@@ -1,47 +1,66 @@
-const { MessageEmbed, Util } = require("discord.js");
+const { MessageEmbed} = require("discord.js");
 const { inspect } = require("util");
 
-exports.run = (client, message, args) => {
-  if (message.author.id !== "822819247146663936") return;
-  if (!args[0]) return;
-
+exports.run = async (client, message, args) => {
+  
+  //------------------------VERIFICATIONS------------------------//
+  if (message.author.id !== process.env.ownerId) return;
+  if (!args[0]) return message.reply("Nenhum Argumento Foi Passado");
+  //-------------------------------------------------------------// 
+  
+  //---------------------------KEYWORDS--------------------------//
+  const author = message.author;
+  const member = message.member;
+  const guild = message.guild;
+  
+  let code = args.join(" ");
+  let result;
+  //-------------------------------------------------------------//
+  
+  
+  
+  //---------------------COMMAND---------------------------------//
   try {
-    // palavras chaves
-    const author = message.author;
-    const guild = message.guild;
-    const member = message.member;
+    result = eval(code);
 
-    // code
-    const code = args.join(" ");
-    let result = eval(code);
-
-    const color = process.env.colorEmbed;
-
-    if (typeof result !== "string") result = inspect(result, { depth: 0 });
-    if (result.length >= 1002) result = result.slice(0, 1002) + "...";
-
-    const embed = new MessageEmbed()
-      .addField("Entrada: ", `\`\`\`js\n${code}\`\`\``)
-      .addField("Saida: ", `\`\`\`js\n${result}\`\`\``)
-      .setColor(color);
-
-    message.reply({
-      embeds: [embed]
-    });
+    if (typeof result !== "string")
+      result = inspect(result, { depth: 0 });
+    if (result.length >= 1002)
+      result = result.slice(0, 1002) + "...";
+    
   } catch (err) {
-    message.reply(err.message);
-  }
-  // utils
+    result = err.message;
+    console.log(err.stack);
+  };
+  
+  // embed 
+  const embed = new MessageEmbed()
+    .addField(":inbox_tray: Entrada: ", `\`\`\`js\n${code}\`\`\``)
+    .addField(":outbox_tray: Saida: ", `\`\`\`js\n${result}\`\`\``)
+    .setColor(process.env.colorEmbed);
+
+  await message.reply({
+    embeds: [embed]
+  });
+  
+  
+  
+  //-------------------------------------------------------------//
+  
+  //----------------------USEFUL FUNCTIONS-----------------------//
   async function exit() {
-    await message.reply("Desligando...");
+    await message.reply("Desligando....");
+    await client.destroy();
     process.exit();
-  }
+  };
+  //-------------------------------------------------------------//
 };
 
-module.exports.help = {
+
+exports.help = {
   name: "eval",
   description: "Executa codigos",
   aliases: [],
-  usage: "<prefix>eval [code]",
+  usage: "eval [code]",
   category: "Owner"
 };

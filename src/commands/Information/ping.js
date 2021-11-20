@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
   const m = await message.reply({
     embeds: [embed.setDescription(`${emojiLoading}`)]
   });
-
+  
   const pings = stripIndents`
   🏓 **|** Ping do bot: ${client.ws.ping}ms
   📡 **|** Latência do servidor: ${m.createdTimestamp -
@@ -24,13 +24,15 @@ exports.run = async (client, message, args) => {
   :leaves: **|** Ping da database: ${pingDB}
   `;
 
-  await m.edit({ embeds: [embed.setDescription(pings)] });
+  await m.edit({
+    embeds: [embed.setDescription(pings)]
+  });
 };
 
 module.exports.help = {
   name: "ping",
   description: "Veja os meus pings",
   aliases: ["pong", "ws", "ping-pong"],
-  usage: "<prefix>ping",
+  usage: "ping",
   category: "Information"
 };

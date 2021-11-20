@@ -2,7 +2,7 @@ const { Client } = require("discord.js");
 const fetch = require("node-fetch");
 require("dotenv").config();
 
-const pastas = ["Information", "Owner", "Config"];
+const pastas = ["Information", "Owner", "Config", "Utils"];
 
 async function start() {
   try {
