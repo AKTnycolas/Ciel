@@ -43,6 +43,11 @@ module.exports = {
   // reload
   "refresh": "910937826596647042",
   
+  // notifier
+  "bug": "911991971717980202",
+  "pag": "912005931179597854",
+  "wrong_theme_2": "912009031256772659",
+  
   // discord badges
   "DISCORD_EMPLOYEE": "<:discord_team:910922866227294228>",
   "TEAM_USER": "<:discord_team:910922866227294228>",
