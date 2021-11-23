@@ -1,47 +1,52 @@
 const Guild = require("../../database/Schemas/Guild");
 const User = require("../../database/Schemas/User");
+const { notifier } = require("../../utils/plugins/notifier");
 
 module.exports = (client, message) => {
   if (message.author.bot) return;
-  if (message.channel.type == "dm") return;
+  if (message.channel.type === "dm") return;
 
   Guild.findOne({ _id: message.guild.id }, (err, server) => {
-    if (err) return console.log("[MESSAGE-CREATE] - " + err);
+    if (err) return notifier(client, "Database Error", err);
     User.findOne({ _id: message.author.id }, async (err, user) => {
-      if (err) return console.log("[MESSAGE-CREATE] -" + err);
+      if (err) return notifier(client, "Database Error", err);
 
       if (server) {
         if (user) {
+          
+          
+          //-------------------------------------------------------------//
           const prefix = server.prefix;
 
-          if (message.content == `<@${client.user.id}>`)
-            return message.reply(
-              `Olá ${message.author.username}, o meu nome é ${client.user.username}, o meu prefix nesse servidor é **${prefix}**`
-            );
+          if (message.content === `<@${client.user.id}>`)
+            return message.reply(`Olá ${message.author}, o meu prefix nesse servidor é __**${prefix}**__`);
           else if (!message.content.startsWith(prefix)) return;
-          else if (message.content == prefix) return;
+          else if (message.content === prefix) return;
 
-          try {
-            const messageSplit = message.content.split(" ");
-            const args = messageSplit.slice(1);
-            const commandName = messageSplit[0].slice(prefix.length);
+          const messageSplit = message.content.split(" ");
+          const args = messageSplit.slice(1);
+          const cmdName = messageSplit[0].slice(prefix.length);
 
-            const commandFile = client.commands.get(
-              client.aliases.get(commandName) || commandName
-            );
-            if (commandFile) commandFile.run(client, message, args, { server, user });
-          } catch (err) {
-            console.log("[EVENT-MESSAGE] - " + err.stack);
+          const cmdFile = client.commands.get(client.aliases.get(cmdName) || cmdName);
+
+          if (cmdFile) {
+            try {
+              cmdFile.run(client, message, args, { server, user });
+            } catch (err) {
+              return notifier(client, "Comando Com Error", err);
+            }
           }
+          //-------------------------------------------------------------//
+          
+          
         } else {
           await User.create({ _id: message.author.id }, err => {
-            if (err)
-              return console.log("[MESSAGE-CREATE] - " + err);
+            if (err) notifier(client, "Database Error", err);
           });
         }
       } else {
         await Guild.create({ _id: message.guild.id }, err => {
-          if (err) return console.log("[MESSAGE-CREATE] - " + err);
+          if (err) notifier(client, "Database Error", err);
         });
       }
     });
