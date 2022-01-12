@@ -13,7 +13,7 @@ exports.run = async (client, message, args, { server }) => {
   
   const setupEmoji = client.emojis.cache.get(Emojis.edited).url;
   const embed = new MessageEmbed()
-    .setAuthor("Prefix", setupEmoji)
+    .setAuthor({ name: "Prefix", iconURL: setupEmoji })
     .setColor(process.env.colorEmbed);
   
   const send = async (text) => {
@@ -37,9 +37,9 @@ exports.run = async (client, message, args, { server }) => {
   else if (["reset", "default", "pattern"].includes(args[0])) {
     if (administrator) {
       if (server.prefix == process.env.basePrefix) {
-        send("Esse prefixo já está setado");
+        send("Esse prefixo já é padrão");
       } else {
-        send("O prefix do servidor foi resetado para o prefixo padrão");
+        send("O prefix do servidor foi resetado com sucesso");
         await Guild.findOneAndUpdate(
           { _id: message.guild.id },
           { $set: { prefix: process.env.basePrefix } }
@@ -57,19 +57,19 @@ exports.run = async (client, message, args, { server }) => {
 
       if (prefix.length > 5)
         return send(
-          `O tamanho do prefix é muito grande, a quantidade máxima é **5** caracteres`
+          `O prefix é muito grande!, o máximo é **5** caracteres`
         );
       else if (prefix === server.prefix)
         return send(
-          `O prefix escolhido é mesmo já setado na database!`
+          `O prefix escolhido é mesmo de agora`
         );
       else {
         await Guild.findOneAndUpdate({ _id: message.guild.id }, { $set: { prefix: prefix } })
           .then(send(
-              `O prefix do servidor foi alterado com sucesso, agora o novo prefix é **${prefix}**`
+              `O prefix do servidor foi alterado, o novo prefix é **${prefix}**`
           ))
           .catch(err => {
-            send("Não foi possivel trocar o prefix, pois ocorreu algum error interno");
+            send("Não foi possivel trocar o prefix");
             console.log(err);
           });
       }

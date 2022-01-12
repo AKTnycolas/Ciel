@@ -6,13 +6,14 @@ exports.run = async (client, message, args) => {
   //---------------------SOME CHECKS-----------------------------//
   if (message.author.id !== process.env.ownerId) return;
   if (!args[0]) return message.reply("Você não inseriu o nome do comando!");
+  //-------------------------------------------------------------//
   
-  const refresh = client.emojis.cache.filter(x => x.id === Emojis.refresh).first().url;
+  
+  const refresh = client.emojis.cache.get(Emojis.refresh).url;
   
   const embed = new MessageEmbed()
-    .setAuthor("Reload", refresh)
+    .setAuthor({ name: "Reload", iconURL: refresh })
     .setColor(process.env.colorEmbed);
-  //-------------------------------------------------------------//
   
   const cmd =
     client.commands.get(args[0]) ||
@@ -22,6 +23,7 @@ exports.run = async (client, message, args) => {
     return message.reply({ embeds: [embed] });;
   }
   const path = `../../commands/${cmd.help.category}/${cmd.help.name}`;
+  
   
   //-------------------------------------------------------------// 
   try {
@@ -44,7 +46,7 @@ exports.run = async (client, message, args) => {
 exports.help = {
   name: "reload",
   description: "Recarrega um comando",
-  aliases: [],
+  aliases: ["refresh"],
   usage: "reload [cmdName]",
   category: "Owner"
 };

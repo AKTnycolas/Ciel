@@ -4,21 +4,18 @@ const Emojis = require("../../utils/emojis");
 
 exports.run = async (client, message, args, { server }) => {
   //---------------------COMMAND VARIABLES-----------------------//
-  const icon = client.user.displayAvatarURL({ dynamic: true });
-
-  const get = id => {
-    return client.emojis.cache.filter(x => x.id == id).first();
-  };
+  const iconURL = client.user.displayAvatarURL({ dynamic: true });
+  const get = (id) => client.emojis.cache.get(id);
 
   const embed = new MessageEmbed()
-    .setAuthor("Central De Comandos", icon)
+    .setAuthor({ name: "Central De Comandos", iconURL })
     .setColor(process.env.colorEmbed);
 
   const categorys = {
     Config: "Configurações",
     Information: "Informações",
     Owner: "Owner",
-    Utils: "Utils"
+    Utils: "Utils",
   };
 
   let Config = [];
@@ -27,8 +24,8 @@ exports.run = async (client, message, args, { server }) => {
   let Utils = [];
 
   client.commands
-    .map(cmd => cmd)
-    .forEach(cmd => {
+    .map((cmd) => cmd)
+    .forEach((cmd) => {
       const { category, name } = cmd.help;
 
       if (category == "Config") Config.push(name);
@@ -50,7 +47,7 @@ exports.run = async (client, message, args, { server }) => {
       ) {
         embed.setDescription(`O comando **${args[0]}** não foi encontrado.`);
         return message.reply({
-          embeds: [embed]
+          embeds: [embed],
         });
       }
 
@@ -58,19 +55,19 @@ exports.run = async (client, message, args, { server }) => {
       const { name, description, aliases, usage } = cmd.help;
 
       embed
-        .addField("Nome Original: ", name)
-        .addField("Descrição: ", description)
-        .addField("Aliases: ", aliases.join(", ") || "Não tem aliases")
-        .addField("Modo de Usar: ", server.prefix + usage);
+        .addField(`${get(Emojis.name)} Nome Original: `, name)
+        .addField(`${get(Emojis.description)} Descrição: `, description)
+        .addField(`${get(Emojis.DISCORD_PARTNER_ID)} Aliases: `, aliases.join(", ") || "Não tem aliases")
+        .addField(`${get(Emojis.edited)} Modos de Usar: `, server.prefix + usage);
 
       return message.reply({
-        embeds: [embed]
+        embeds: [embed],
       });
     } else {
       // if you don't find the command
-      embed.setDescription(`O comando **${args[0]}** não foi encontrado.`);
+      embed.setDescription(`${get(Emojis.no)} O comando **${args[0]}** não foi encontrado.`);
       return message.reply({
-        embeds: [embed]
+        embeds: [embed],
       });
     }
   }
@@ -105,7 +102,7 @@ exports.run = async (client, message, args, { server }) => {
     );
 
   return message.reply({
-    embeds: [embed]
+    embeds: [embed],
   });
 };
 //-------------------------------------------------------------//
@@ -115,5 +112,5 @@ exports.help = {
   description: "Veja a minha lista de Comandos",
   aliases: ["commands"],
   usage: `help <command>`,
-  category: "Information"
+  category: "Information",
 };

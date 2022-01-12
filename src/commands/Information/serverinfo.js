@@ -8,25 +8,20 @@ exports.run = async (client, message, args, { server }) => {
   
   //--------------------VARIÁVEIS BASES--------------------------// 
   const guild = message.guild;
-  const icon = guild.iconURL({ dynamic: true });
+  const member = message.member;
+  
+  const iconURL = guild.iconURL({ dynamic: true });
   const color = process.env.colorEmbed;
   
-  const get = (id) => {
-    return client.emojis.cache.filter(x => x.id == id).first();
-  };
+  const get = id => client.emojis.cache.get(id);
   //-------------------------------------------------------------// 
   
   //-------------------EMBED1 VARIABLES--------------------------// 
-  const owner = client.users.cache.get(guild.ownerId).tag;
-  const mainLanguage = acro.get(guild.preferredLocale);
-  const myEntry = dateAndDay({
-    date: guild.members.cache.get(client.user.id).joinedAt,
-    days: true
-  });
-  const yourEntry = dateAndDay({
-    date: guild.members.cache.get(message.author.id).joinedAt,
-    days: true
-  });
+  const ownerTag = client.users.cache.get(guild.ownerId).tag;
+  const mainLanguage = acro.get(guild.preferredLocale) ?? "Língua não encontrada";
+  
+  const yourEntry = `<t:${Math.ceil(member.joinedAt.getTime()/1000)}:f>`;
+  const createdAt = `<t:${Math.ceil(guild.createdAt.getTime()/1000)}:f>`;
   //-------------------------------------------------------------// 
   
   
@@ -35,13 +30,7 @@ exports.run = async (client, message, args, { server }) => {
     ? "Nenhum Boost"
     : `**${guild.premiumSubscriptionCount}** Boosts ( ${guild.premiumTier} )`;
 
-  const createdAt = dateAndDay({
-    date: guild.createdAt,
-    days: true
-  });
-
   let vLevel = guild.verificationLevel;
-  
   switch (vLevel) {
     case (vLevel === "NOME"): vLevel == "Nenhum"; break;
     case (vLevel === "LOW"): vLevel == "Baixo"; break;
@@ -66,7 +55,7 @@ exports.run = async (client, message, args, { server }) => {
     status.filter(x => x.status == "offline").size
   ];
 
-  const members = guild.members.cache; // support variable
+  const members = guild.members.cache;
   const memberServer = [
     members.size,
     members.filter(x => x.user.bot).size,
@@ -79,35 +68,29 @@ exports.run = async (client, message, args, { server }) => {
     emojis.filter(x => x.animated).size,
     emojis.filter(x => x.animated == false).size
   ];
-  
-  const someEmojis = emojis.size >= 1
-    ? `${emojis.map(x => x).slice(0, 26).join("**|**")}`
-    : "Nenhum Emoji Encontrado";
   //-------------------------------------------------------------// 
-  
   
   
   //-------------------------EMBEDS------------------------------// 
   const pag1 = new MessageEmbed()
-    .setAuthor(guild.name, icon)
-    .setThumbnail(icon)
-    .addField(`${get(Emojis.name)} Nome: `, `${guild.name}`)
-    .addField(`${get(Emojis.coroa)} Dono(a): `, `${owner}`)
-    .addField(`${get(Emojis.world)} Idioma: `, `${mainLanguage}`)
-    .addField(`${get(Emojis.door)} Minha Entrada: `, myEntry)
-    .addField(`${get(Emojis.door)} Sua Entrada: `, yourEntry)
+    .setAuthor({ name: guild.name, iconURL })
+    .setThumbnail(iconURL)
+    .addField(`${get(Emojis.name)} Nome: `, guild.name)
+    .addField(`${get(Emojis.coroa)} Dono(a): `, ownerTag)
+    .addField(`:speech_balloon: Idioma: `, mainLanguage)
+    .addField(`:date: Criado Em: `, createdAt)
+    .addField(`:date: Sua Entrada: `, yourEntry)
     .setColor(color)
     .setTimestamp()
-    .setFooter("Pág: 1/2");
+    .setFooter({ text: "Pág: 1/2" });
   
   
   const pag2 = new MessageEmbed()
-    .setAuthor(guild.name, icon)
-    .setThumbnail(icon)
-    .addField(":1234: Id: ", `${guild.id}`)
-    .addField(`${get("904835204307361822")} Boosts: `, `${totalBoost}`)
-    .addField(":date: Criado Em: ", `${createdAt}`)
-    .addField(`${get(Emojis.shield)} Nível de Verificação: `, `${vLevel}`)
+    .setAuthor({ name: guild.name, iconURL })
+    .setThumbnail(iconURL)
+    .addField(`${get(Emojis.name)} Id: `, guild.id)
+    .addField(`${get("904835204307361822")} Boosts: `, totalBoost)
+    .addField(`${get(Emojis.shield)} Nível de Verificação: `, vLevel)
     .addField(`${get(Emojis.channel)} Canais: `, stripIndents`\`\`\`
     Total: ${channelServer[0]}
     Cartegorias: ${channelServer[1]}
@@ -138,33 +121,34 @@ exports.run = async (client, message, args, { server }) => {
     \`\`\`
     `
     )
-    .addField("Alguns Emojis: ", someEmojis)
     .setColor(color)
     .setTimestamp()
-    .setFooter("Pág: 2/2");
+    .setFooter({ text: "Pág: 2/2" });
+  //-------------------------------------------------------------//
   
-  const rowNext = new MessageActionRow();
-  const rowBack = new MessageActionRow();
-  
-  const buttonNext = new MessageButton()
-    .setCustomId("next")
-    .setEmoji(Emojis.next)
-    .setStyle("PRIMARY");
-    
-    const buttonBack = new MessageButton()
-    .setCustomId("back")
-    .setEmoji(Emojis.back)
-    .setStyle("PRIMARY");
+  const rowNext = new MessageActionRow().addComponents([
+    new MessageButton()
+      .setCustomId("next")
+      .setEmoji(Emojis.next)
+      .setStyle("PRIMARY"),
+    new MessageButton()
+      .setCustomId("back")
+      .setEmoji(Emojis.back)
+      .setStyle("PRIMARY")
+      .setDisabled(true),
+  ]);
 
-  rowNext.addComponents([
-    buttonNext.setDisabled(false),
-    buttonBack.setDisabled(true)
-  ]);
-  
-  rowBack.addComponents([
-    buttonNext.setDisabled(true),
-    buttonBack.setDisabled(false)
-  ]);
+  const rowBack = new MessageActionRow().addComponents([
+    new MessageButton()
+      .setCustomId("next")
+      .setEmoji(Emojis.next)
+      .setStyle("PRIMARY")
+      .setDisabled(true),
+    new MessageButton()
+      .setCustomId("back")
+      .setEmoji(Emojis.back)
+      .setStyle("PRIMARY"),
+  ])
   
   const msg = await message.reply({
     embeds: [pag1],
@@ -206,7 +190,7 @@ exports.run = async (client, message, args, { server }) => {
   
   collector.on("end", async () => {
     await msg.edit({
-      embeds: [pag1.setFooter("Tempo de interação acabado.")],
+      embeds: [pag1.setFooter({ text: "Tempo de interação acabado." })],
       components: []
     }).catch(o_O => o_O);
   });

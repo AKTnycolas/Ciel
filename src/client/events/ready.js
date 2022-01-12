@@ -26,14 +26,17 @@ module.exports = client => {
     { name: "Booyah", type: "STREAMING" },
 
     { name: `Olá eu me chamo ${client.user.username}`, type: "PLAYING" },
-    { name: `Tag do meu criador ${client.users.cache.get("822819247146663936").tag}`, type: "PLAYING" },
+    { name: `Tag da minha criadora ${client.users.cache.get("822819247146663936").tag}`, type: "PLAYING" },
     { name: "Me chame para seu servidor https://is.gd/CielBot", type: "PLAYING" },
     { name: "Entre o meu servidor de suporte https://is.gd/CielSuport", type: "PLAYING" }
   ];
   
   const avatars = [
     "https://media.discordapp.net/attachments/865774240926400512/908545373499453470/images_2.jpeg",
-    "https://media.discordapp.net/attachments/865774240926400512/908545353505198160/images.jpeg"
+    "https://media.discordapp.net/attachments/865774240926400512/908545353505198160/images.jpeg",
+    "https://media.discordapp.net/attachments/865774240926400512/930956652323172402/be5ced152cd1da334ab33d2e74f6508e.jpeg,",
+    "https://media.discordapp.net/attachments/865774240926400512/930956661462552636/images_1.jpeg",
+    "https://media.discordapp.net/attachments/865774240926400512/930956671667273798/images.jpeg"
   ];
   
   client.user.setStatus("dnd");
