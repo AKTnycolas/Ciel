@@ -5,46 +5,60 @@ const Emojis = require("../../utils/emojis");
 exports.run = async (client, message, args) => {
   
   //------------------VARIÁVEIS BASES----------------------//
-  const author =
-    client.users.cache.get(args[0]) ||
-    message.mentions.users.first() ||
-    message.author;
-  const icon = author.displayAvatarURL({ dynamic: true });
+  const author = client.users.cache.get(args[0]) || message.mentions.users.first() || message.author;
+  const iconURL = author.displayAvatarURL({ dynamic: true });
   const color = process.env.colorEmbed;
   
-  const get = (id) => {
-    return client.emojis.cache.filter(x => x.id === id).first();
-  };
-
   const fetchServer = client.guilds.cache
-    .filter(g => g.members.cache.filter(x => x.id == author.id))
+    .filter(g => g.members.cache.get(author.id))
     .first();
+  
+  const referGuild = !message.guild.members.cache.get(author.id)
+    ? fetchServer
+    : message.guild;
+  
+  const get = id => client.emojis.cache.get(id);
 
-  const guild =
-    typeof message.guild.members.cache.get(author.id) !== "object"
-      ? fetchServer
-      : message.guild;
-
-  const member = guild.members.cache.get(author.id);
+  const member = referGuild.members.cache.get(author.id);
   //-------------------------------------------------------//
 
   //------------------VARIÁVEIS DA EMBED1------------------//
   const nickname = member.nickname || "Nenhum Nickname";
-  const createdAt = dateAndDay({ date: author.createdAt, days: true });
-  const joinedAt = dateAndDay({ date: member.joinedAt, days: true });
+  const createdAt = `<t:${Math.ceil(author.createdAt.getTime()/1000)}:f>`;
+  const joinedAt = `<t:${Math.ceil(member.joinedAt.getTime()/1000)}:f>`;
   //-------------------------------------------------------//
 
   //------------------VARIÁVEIS DA EMBED2------------------//
   const bot = author.bot.toString()
-    .replace("true", "SIM")
-    .replace("false", "NÃO");
+    .replace("true", "Sim")
+    .replace("false", "Não");
   
-  let presence = member.presence ?? "Não Está Jogando Nada";
-  presence = typeof presence == "string"
-    ? presence
-    : typeof presence.activities === "array"
-      ? presence.actcivies[0].name
-      : "Não Está Jogando Nada";
+  let presence;
+  const userPresence= referGuild.presences.cache.get(author.id);
+  const activity = userPresence.activities[0];
+  
+  if (activity !== undefined) {
+    switch (activity.type) {
+      case "PLAYING":
+        presence = "jogando " + activity.name;
+        break;
+      case "LISTENING":
+        presence = "ouvindo " + activity.details;
+        break;
+      case "STREAMING":
+        presence = "transmitindo em " + activity.name;
+        break;
+      case "WATCHING":
+        presence = "assistindo " + activity.name;
+        break;
+      case "COMPETITING":
+        presence = "competindo " + activity.name;
+        break;
+      case "CUSTOM":
+        presence = activity.state;
+        break;
+      }
+  } else presence = "Nenhum atividade";
   
   const badges =
     author.flags
@@ -53,58 +67,62 @@ exports.run = async (client, message, args) => {
       .join("") || "Nenhuma Insígnia";
 
   let roles;
-  if (message.guild.id !== guild.id)
+  if (message.guild.id !== referGuild.id)
     roles = "Não foi possível acessar os cargos";
   else if (member._roles.length == 0)
-    roles = "Não tem cargos";
+    roles = "Nenhum cargos";
   else
     roles = member._roles.map(r => `<@&${r}>`).slice(0, 8).join(", ");
   //-------------------------------------------------------//
 
   //-----------------------EMBEDS--------------------------//
   const pag1 = new MessageEmbed()
-    .setAuthor(member.nickname || author.tag, icon)
-    .setThumbnail(icon)
-    .addField(`${get(Emojis.reference)} Servidor de Referência: `, guild.name)
-    .addField(":capital_abcd: Tag do Usuário: ", author.tag)
-    .addField(":abcd: Nickname: ", nickname)
-    .addField(`${get(Emojis.door)} Criação da Conta: `, createdAt)
-    .addField(`${get(Emojis.door)} Entrada no Server: `, joinedAt)
+    .setAuthor({ name: member.nickname || author.tag, iconURL })
+    .setThumbnail(iconURL)
+    .addField(`${get(Emojis.reference)} Servidor de Referência: `, referGuild.name)
+    .addField(`${get(Emojis.name)} Tag do Usuário: `, author.tag)
+    .addField(`${get(Emojis.edited)} Nickname: `, nickname)
+    .addField(":date: Criação da Conta: ", createdAt)
+    .addField(":date:Entrada no Server: ", joinedAt)
     .setColor(color)
     .setTimestamp()
-    .setFooter("Pág 1/2");
+    .setFooter({ text: "Pág 1/2" });
 
   const pag2 = new MessageEmbed()
-    .setAuthor(member.nickname || author.tag, icon)
-    .setThumbnail(icon)
-    .addField(":id: Id: ", author.id)
-    .addField(":robot: Bot?: ", bot)
-    .addField(":video_game: Jogando: ", presence)
-    .addField(`${get(Emojis.medal)} Insígnias: `, badges)
-    .addField("Alguns Cargos: ", roles)
+    .setAuthor({ name: member.nickname || author.tag, iconURL })
+    .setThumbnail(iconURL)
+    .addField(":id: ID: ", author.id)
+    .addField(`${get(Emojis.person_programming)} Um Bot: `, bot)
+    .addField(":video_game: Atividade: ", presence)
+    .addField(`${get(Emojis.programmer)} Insígnias: `, badges)
+    .addField("Cargos: ", roles)
     .setColor(color)
     .setTimestamp()
-    .setFooter("Pág: 2/2");
+    .setFooter({ text: "Pág: 2/2" });
   
-  const buttonNext = new MessageButton()
-    .setCustomId("next")
-    .setEmoji(Emojis.next)
-    .setStyle("PRIMARY");
-    
-    const buttonBack = new MessageButton()
-    .setCustomId("back")
-    .setEmoji(Emojis.back)
-    .setStyle("PRIMARY");
-    
-    const rowNext = new MessageActionRow().addComponents([
-      buttonNext.setDisabled(false),
-      buttonBack.setDisabled(true)
-    ]);
-    
-    const rowBack = new MessageActionRow().addComponents([
-      buttonNext.setDisabled(true),
-      buttonBack.setDisabled(false)
-    ])
+  const rowNext = new MessageActionRow().addComponents([
+    new MessageButton()
+      .setCustomId("next")
+      .setEmoji(Emojis.next)
+      .setStyle("PRIMARY"),
+    new MessageButton()
+      .setCustomId("back")
+      .setEmoji(Emojis.back)
+      .setStyle("PRIMARY")
+      .setDisabled(true),
+  ]);
+
+  const rowBack = new MessageActionRow().addComponents([
+    new MessageButton()
+      .setCustomId("next")
+      .setEmoji(Emojis.next)
+      .setStyle("PRIMARY")
+      .setDisabled(true),
+    new MessageButton()
+      .setCustomId("back")
+      .setEmoji(Emojis.back)
+      .setStyle("PRIMARY"),
+  ])
 
   const msg = await message.reply({
     embeds: [pag1],
@@ -145,7 +163,7 @@ exports.run = async (client, message, args) => {
   
   collector.on("end", async () => {
     await msg.edit({
-      embeds: [pag1.setFooter("Tempo de Interação Acabado")],
+      embeds: [pag1.setFooter({ text: "Tempo de Interação Acabado" })],
       components: []
     }).catch(o_O => o_O);
   });

@@ -1,6 +1,6 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const { dateAndDay, parseIn } = require("../../utils/plugins/dates");
+const { parseIn } = require("../../utils/plugins/dates");
 const { cpus, platform, totalmem } = require("os");
 const Emojis = require("../../utils/emojis");
 const pack = require("../../../package.json");
@@ -8,12 +8,10 @@ const pack = require("../../../package.json");
 exports.run = async (client, message, args) => {
   
   //-----------------------BASIC VARIABLES-----------------------//
-  const owner = client.users.cache.get(process.env.ownerId);
-  const icon = client.user.displayAvatarURL({ dynamic: true });
+  const ownerTag = client.users.cache.get(process.env.ownerId).tag;
+  const iconURL = client.user.displayAvatarURL({ dynamic: true });
   
-  const get = (id) => {
-    return client.emojis.cache.filter(x => x.id == id).first();
-  }
+  const get = id => client.emojis.cache.get(id);
   //-------------------------------------------------------------//
 
   //-----------------------EMBEDS VARIABLES----------------------//
@@ -24,12 +22,12 @@ exports.run = async (client, message, args) => {
   ];
   
   // dates
-  const createdAt = dateAndDay({ date: client.user.createdAt });
+  const createdAt = `<t:${Math.ceil(client.user.createdAt.getTime()/1000)}:f>`;
   const awakeTime = parseIn(new Date(client.readyAt));
   
   // cpu info
   const cpu = cpus()[0];
-  const cpuModel = cpu.model;
+  const cpuModel = cpu.model.replace(/[(R)]/g, "");
   const cpuSpeed = cpu.speed + "GHz";
   
   // memory information
@@ -48,15 +46,14 @@ exports.run = async (client, message, args) => {
   const formatLastUpdate = parseIn(lastUpdate);
   
   // version information
-  const versions = pack.dependencies;
+  const versionsPack = pack.dependencies;
   const myVersion = pack.version;
   const nodeVersion = process.version.replace("^", "").replace("v", "");
-  const discordVersion = versions["discord.js"].replace("^", "");
-  const mongoDBVersion = versions["mongoose"].replace("^", "")
+  const discordVersion = versionsPack["discord.js"].replace("^", "");
+  const mongoDBVersion = versionsPack["mongoose"].replace("^", "")
   //-------------------------------------------------------------//
 
   //-------------------------DESCRIPTION-------------------------//
-  // decription
   const description = stripIndents`
   Olá, o meu nome é ${client.user.username} tenho
   15 anos e sou apenas um simples bot
@@ -67,7 +64,7 @@ exports.run = async (client, message, args) => {
   `;
 
   const botInfo = stripIndents`
-  ${get(Emojis.programmer)} Minha Criadora: **${owner.tag}**
+  ${get(Emojis.programmer)} Minha Criadora: **${ownerTag}**
   :date: Nasci Em: **${createdAt}**
   ${get(Emojis.users)} Quantidade de Usuários: **${totals[0]}**
   ${get(Emojis.servers)} Quantidade de Servers: **${totals[1]}**
@@ -84,23 +81,24 @@ exports.run = async (client, message, args) => {
   ㅤ
   `;
 
-  const version = stripIndents`
-  ${/*get(Emojis.update)*/":date:"} Último Update: **${formatLastUpdate}**
+  const versions = stripIndents`
+  :date: Último Update: **${formatLastUpdate}**
   ${get(Emojis.versions)} Minha Versão: **${myVersion}**
   ${get(Emojis.nodejs)} Nodejs: **${nodeVersion}**
   ${get(Emojis.discord_theme_2)} Discord.js: **${discordVersion}**
   ${get(Emojis.mongoDB)} MongoDB: **${mongoDBVersion}**
   `;
   //-------------------------------------------------------------//
-
+  
+  
   //---------------------------EMBEDS----------------------------//
   const embed = new MessageEmbed()
-    .setAuthor(`Olá ${message.author.username}`, icon)
+    .setAuthor({ name: `Olá ${message.author.username}`, iconURL })
     .setDescription(description)
-    .setThumbnail(icon)
+    .setThumbnail(iconURL)
     .addField("Informações do Bot: ", botInfo)
     .addField("Informações da Host: ", hosting)
-    .addField("Informações das Versões: ", version)
+    .addField("Informação das Versões: ", versions)
     .setColor(process.env.colorEmbed);
   
   const invite = `https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`;
@@ -114,7 +112,7 @@ exports.run = async (client, message, args) => {
 
   const buttonSuport = new MessageButton()
     .setURL(suport)
-    .setLabel("Servidor De Suporte")
+    .setLabel("Suporte")
     .setEmoji(Emojis.suport)
     .setStyle("LINK");
   

@@ -32,7 +32,7 @@ module.exports = {
 
     //-------------------------EMBED-------------------------------//
     const embed = new MessageEmbed()
-      .setAuthor("Error Encotrado", get(Emojis.bug).url)
+      .setAuthor({ name: "Error Encotrado", iconURL: get(Emojis.bug).url })
       .addField("📅 Data do Ocorrido: ", dateOfOccurrence)
       .addField(`${get(Emojis.pag)} Tipo de Error: `, type)
       .addField(`${get(Emojis.wrong_theme_2)} Error: `, error)

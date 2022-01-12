@@ -1,4 +1,4 @@
-const { MessageEmbed} = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { inspect } = require("util");
 
 exports.run = async (client, message, args) => {
@@ -14,14 +14,14 @@ exports.run = async (client, message, args) => {
   const guild = message.guild;
   
   let code = args.join(" ");
-  let result;
+  let result, type;
   //-------------------------------------------------------------//
   
   
   
   //---------------------COMMAND---------------------------------//
   try {
-    result = eval(code);
+    result = type = eval(code);
 
     if (typeof result !== "string")
       result = inspect(result, { depth: 0 });
@@ -37,6 +37,7 @@ exports.run = async (client, message, args) => {
   const embed = new MessageEmbed()
     .addField(":inbox_tray: Entrada: ", `\`\`\`js\n${code}\`\`\``)
     .addField(":outbox_tray: Saida: ", `\`\`\`js\n${result}\`\`\``)
+    .addField(":thinking: Tipo de Saída: ", `\`\`\`\n${typeof type}\`\`\``)
     .setColor(process.env.colorEmbed);
 
   await message.reply({

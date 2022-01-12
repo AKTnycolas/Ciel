@@ -28,17 +28,17 @@ module.exports = {
   "information": "910922942790119466",
   "utils": "910922948213366784",
   "coroa": "910922953720492034",
+  "description": "930775457601843220",
   
   // serverinfo
   "name": "910922959651217509",
   "world": "910922965435154512",
-  "door": "910922971575644190",
   "shield": "910922977133076491",
   "online": "910923002596716595",
   
-  
   // userinfo
   "reference": "910923016773435392",
+  "person_programming": "909888620008181800",
   
   // reload
   "refresh": "910937826596647042",
@@ -62,5 +62,7 @@ module.exports = {
   "HOUSE_BALANCE": "<:nalance:910922805636395009>",
   "HYPESQUAD_EVENTS": "<:hypesquad_events:910922854181253131>",
   "EARLY_SUPPORTER": "<:early_supporter:910922860179103764>",
-  "VERIFIED_BOT": "<:bot_verified:910922872132890675>"
+  "VERIFIED_BOT": "<:bot_verified:910922872132890675>",
+  "VERIFIED_BOT_ID": "905019666584449055",
+  "DISCORD_PARTNER_ID": "904835160216858674"
 };
