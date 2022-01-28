@@ -32,11 +32,11 @@ module.exports = client => {
   ];
   
   const avatars = [
-    "https://media.discordapp.net/attachments/865774240926400512/908545373499453470/images_2.jpeg",
-    "https://media.discordapp.net/attachments/865774240926400512/908545353505198160/images.jpeg",
-    "https://media.discordapp.net/attachments/865774240926400512/930956652323172402/be5ced152cd1da334ab33d2e74f6508e.jpeg,",
-    "https://media.discordapp.net/attachments/865774240926400512/930956661462552636/images_1.jpeg",
-    "https://media.discordapp.net/attachments/865774240926400512/930956671667273798/images.jpeg"
+    "https://imgur.com/tNaZ16p.png",
+    "https://imgur.com/japIfbJ.png",
+    "https://imgur.com/ce9ZVxF.png",
+    "https://imgur.com/0cCDhaX.png",
+    "https://imgur.com/JEXfUMX.png"
   ];
   
   client.user.setStatus("dnd");
@@ -50,6 +50,8 @@ module.exports = client => {
     const random = avatars[Math.floor(Math.random() * avatars.length)];
     client.user.setAvatar(random);
   }, 600000);
+  
+  require("../../utils/plugins/getUser")(client);
 
   console.log("ESTOU ON!");
 };

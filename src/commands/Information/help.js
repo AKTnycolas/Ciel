@@ -14,12 +14,16 @@ exports.run = async (client, message, args, { server }) => {
   const categorys = {
     Config: "Configurações",
     Information: "Informações",
+    Fun: "Diversão",
+    Moderation: "Moderação",
     Owner: "Owner",
     Utils: "Utils",
   };
 
   let Config = [];
   let Information = [];
+  let Fun = [];
+  let Moderation = [];
   let Owner = [];
   let Utils = [];
 
@@ -28,10 +32,12 @@ exports.run = async (client, message, args, { server }) => {
     .forEach((cmd) => {
       const { category, name } = cmd.help;
 
-      if (category == "Config") Config.push(name);
-      if (category == "Information") Information.push(name);
-      if (category == "Owner") Owner.push(name);
-      if (category == "Utils") Utils.push(name);
+      if (category === "Config") Config.push(name);
+      if (category === "Information") Information.push(name);
+      if (category === "Fun") Fun.push(name);
+      if (category === "Moderation") Moderation.push(name);
+      if (category === "Owner") Owner.push(name);
+      if (category === "Utils") Utils.push(name);
     });
   //-------------------------------------------------------------//
 
@@ -86,8 +92,16 @@ exports.run = async (client, message, args, { server }) => {
       `\`\`\`\n${Config.sort().join(" - ")}\`\`\``
     )
     .addField(
+      `${get(Emojis.moderation)} Configuração: (${Moderation.length})`,
+      `\`\`\`\n${Moderation.sort().join(" - ")}\`\`\``
+    )
+    .addField(
       `${get(Emojis.information)} Informação: (${Information.length})`,
       `\`\`\`\n${Information.sort().join(" - ")}\`\`\``
+    )
+    .addField(
+      `${get(Emojis.fun)} Diversão: (${Fun.length})`,
+      `\`\`\`\n${Fun.sort().join(" - ")}\`\`\``
     )
     .addField(
       `${get(Emojis.utils)} Utils: (${Utils.length})`,

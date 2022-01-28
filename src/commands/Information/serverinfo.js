@@ -89,7 +89,7 @@ exports.run = async (client, message, args, { server }) => {
     .setAuthor({ name: guild.name, iconURL })
     .setThumbnail(iconURL)
     .addField(`${get(Emojis.name)} Id: `, guild.id)
-    .addField(`${get("904835204307361822")} Boosts: `, totalBoost)
+    .addField(`${get(Emojis.boost)} Boosts: `, totalBoost)
     .addField(`${get(Emojis.shield)} Nível de Verificação: `, vLevel)
     .addField(`${get(Emojis.channel)} Canais: `, stripIndents`\`\`\`
     Total: ${channelServer[0]}
@@ -107,14 +107,14 @@ exports.run = async (client, message, args, { server }) => {
     \`\`\`
     `
     )
-    .addField(`${get("909892224362369086")} Membros: `, stripIndents`\`\`\`
+    .addField(`${get(Emojis.users)} Membros: `, stripIndents`\`\`\`
     Total: ${memberServer[0]}
     Humanos: ${memberServer[2]}
     Bots: ${memberServer[1]}
     \`\`\`
     `
     )
-    .addField(`${get("902892025307889664")} Emojis: `, stripIndents`\`\`\`
+    .addField(`${get(Emojis.full_heart)} Emojis: `, stripIndents`\`\`\`
     Total: ${emojiServer[0]}
     Animados: ${emojiServer[1]}
     Inanimados: ${emojiServer[2]}
@@ -157,14 +157,9 @@ exports.run = async (client, message, args, { server }) => {
   //-------------------------------------------------------------//
   
   
-  
   //------------------------COLLECTOR----------------------------//
-  const filter = async (i) => {
-    return i.isButton() && i.message.id === msg.id;
-  };
-  
   const collector = msg.createMessageComponentCollector({
-    filter: filter,
+    componentType: "BUTTON",
     time: 45000,
   });
   

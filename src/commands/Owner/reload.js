@@ -47,6 +47,6 @@ exports.help = {
   name: "reload",
   description: "Recarrega um comando",
   aliases: ["refresh"],
-  usage: "reload [cmdName]",
+  usage: "reload [comando]",
   category: "Owner"
 };

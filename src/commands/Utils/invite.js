@@ -1,15 +1,24 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const { stripIndents } = require("common-tags");
 
-exports.run = (client, message, args) => {
-  
+exports.run = async (client, message, args) => {
   //-------------------------------------------------------------//
+  const guild = client.guilds.cache.get(process.env.supportGuild);
   const icon = client.user.displayAvatarURL({ dynamic: true });
-  const inviteMe = `https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`;
-  const support = "https://discord.gg/V9NQbXWqUs";
+  const inviteMe = client.generateInvite({
+    scopes: ["bot"],
+    permissions: [Permissions.FLAGS.ADMINISTRATOR],
+  });
+
+  let support = guild.invites.cache.find((i) => i.maxAge === 0);
+
+  if (!support) {
+    const randomChannel = guild.channels.cache.first();
+    const link = await guild.invites.create(randomChannel.id, { maxAge: 0 });
+    support = link;
+  }
   //-------------------------------------------------------------//
-  
-  
+
   //-------------------------------------------------------------//
   const embed = new MessageEmbed()
     .setThumbnail(icon)
@@ -20,7 +29,7 @@ exports.run = (client, message, args) => {
     .setColor(process.env.colorEmbed);
 
   message.reply({
-    embeds: [embed]
+    embeds: [embed],
   });
   //-------------------------------------------------------------//
 };
@@ -30,5 +39,5 @@ exports.help = {
   description: "Use esse comando para ver os meus links de invite",
   aliases: ["invites", "convidar"],
   usage: "invite",
-  category: "Utils"
+  category: "Utils",
 };

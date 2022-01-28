@@ -84,6 +84,6 @@ module.exports.help = {
   name: "prefix",
   description: "Altere o meu prefixo",
   aliases: ["prefixo", "reset-prefix"],
-  usage: "prefix <prefixo || reset>",
+  usage: "prefix <prefixo|reset>",
   category: "Config"
 };
