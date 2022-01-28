@@ -1,7 +1,6 @@
-const { MessageEmbed } = require("discord.js"),
-  { dateAndDay } = require("../../utils/plugins/dates"),
-  Emojis = require("../emojis"),
-  { stripIndents } = require("common-tags");
+const { MessageEmbed } = require("discord.js")
+const { stripIndents } = require("common-tags");
+const Emojis = require("../emojis");
 
 module.exports = {
   async notifier(client, type, err) {
@@ -18,10 +17,7 @@ module.exports = {
       default: color = process.env.colorEmbed; break;
     }
 
-    const dateOfOccurrence = dateAndDay({
-      date: Date.now(),
-      format: "DD/MM/YYYY HH:mm:ss"
-    });
+    const dateOfOccurrence = `<t:${Math.ceil(Date.now()/ 1000)}:f>`;
 
     let error = err?.stack ?? err.message;
     error = error.length > 1002 ? error.slice(0, 1002) + "..." : error;
@@ -33,7 +29,7 @@ module.exports = {
     //-------------------------EMBED-------------------------------//
     const embed = new MessageEmbed()
       .setAuthor({ name: "Error Encotrado", iconURL: get(Emojis.bug).url })
-      .addField("📅 Data do Ocorrido: ", dateOfOccurrence)
+      .addField(":date: Data do Ocorrido: ", dateOfOccurrence)
       .addField(`${get(Emojis.pag)} Tipo de Error: `, type)
       .addField(`${get(Emojis.wrong_theme_2)} Error: `, error)
       .setColor(color);
@@ -44,4 +40,3 @@ module.exports = {
     //-------------------------------------------------------------//
   }
 };
-

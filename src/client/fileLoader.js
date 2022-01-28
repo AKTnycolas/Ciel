@@ -25,11 +25,11 @@ module.exports = {
           });
           delete require.cache[require.resolve(`../commands/${p}/${file}`)];
         });
-        console.log(
-          `[COMANDOS] - foram carregados ${commands.length} comandos na pasta ${p}`
-        );
       });
     });
+    console.log(
+      `[COMANDOS] - todos os comandos do bot foram carregados`
+    );
 
     //--------------------EVENTOS--------------------//
 
@@ -40,7 +40,7 @@ module.exports = {
         const file = require(`./events/${event}`);
         const eventName = event.split(".")[0];
 
-        if (eventName == "ready") {
+        if (eventName === "ready") {
           client.once("ready", file.bind(null, client));
         } else {
           client.on(eventName, file.bind(null, client));
