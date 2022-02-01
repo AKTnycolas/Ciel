@@ -1,8 +1,8 @@
 const { MessageEmbed } = require("discord.js");
-const Image = require("../../database/Schemas/Image.js");
 const lovePercentage = require("../../utils/plugins/getLovePercentage.js");
 
 exports.run = async (client, message, args) => {
+  const { Image } = client.database;
   const author = message.author;
   const somebody = message.mentions.users.first();
 

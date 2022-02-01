@@ -1,51 +1,38 @@
 const { MessageEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const Black = require("../../database/Schemas/Black");
-const Emojis = require("../../utils/emojis");
+const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args) => {
   if (message.author.id !== process.env.ownerId) return;
-  const get = (id) => client.emojis.cache.get(id);
 
-  //-----------------------ADD USER-----------------------------//
-  if (["add", "adicionar"].includes(args[0])) {
-    if (!args[1]) {
-      return message.reply("Você não disse o id do user!");
-    } else if (!client.users.cache.get(args[1])) {
+  //-------------------BASE VARIABLES----------------------//
+  const shield = new getter(client).get("shield").url;
+  const reason = args[2] ? args.slice(2).join(" ") : "Não definido";
+
+  const user =
+    client.users.cache.get(args[0]) || message.mentions.users.first();
+  const { Black } = client.database;
+  //-------------------------------------------------------//
+
+  //--------------------BAN AND UNBAN----------------------//
+  if (args[0]) {
+    if (!user) {
       return message.reply("Esse usuário não existe!");
-    } else if ([process.env.ownerId, client.user.id].includes(args[1])) {
+    } else if ([process.env.ownerId, client.user.id].includes(args[0])) {
       return message.reply("Impossível!");
     }
 
-    const reason = args[2] ? args.slice(2).join(" ") : "Não definido";
-    const user = await Black.findById(args[1]);
+    const userData = await Black.findById(user.id);
 
-    if (user) {
-      return message.reply("Esse usuário já está na minha blacklist!");
-    } else {
-      await Black.create({ _id: args[1], reason });
+    if (userData) {
+      await Black.deleteOne({ _id: user.id });
       return message.reply(
-        `O usuário de id **${args[1]}** foi **banido** com sucesso!`
+        `O usuário **${user.tag}** foi **retirado** da blacklist com sucesso!`
       );
-    }
-  }
-  //-------------------------------------------------------//
-  
-  //-------------------REMOVING USER-----------------------//
-  if (["rmv", "remove"].includes(args[0])) {
-    if (!args[1]) {
-      return message.reply("Você não disse o id do user!");
-    }
-
-    const reason = args[2] ? args.slice(2).join(" ") : "Não definido";
-    const user = await Black.findById(args[1]);
-
-    if (!user) {
-      return message.reply("Esse usuário não está na minha database!");
     } else {
-      await Black.deleteOne({ _id: user._id });
+      await Black.create({ _id: user.id, reason });
       return message.reply(
-        `O usuário de id **${args[1]}** **foi retirado** da blacklist com sucesso!`
+        `O usuário **${user.tag}** foi **colocado** na minha blacklist!`
       );
     }
   }
@@ -62,11 +49,11 @@ exports.run = async (client, message, args) => {
 
   const description = [];
 
-  for (let doc of users) {
-    const user = client.users.cache.get(doc._id);
+  for (const doc of users) {
+    const sucker = client.users.cache.get(doc._id);
 
     const subDescription = stripIndents`
-      > **Nome:** ${user.tag}
+      > **Nome:** ${sucker.tag}
       > **Motivo:** ${doc.reason}
       > **Desde:** <t:${Math.ceil(doc.date.getTime() / 1000)}:f>
       `;
@@ -75,7 +62,7 @@ exports.run = async (client, message, args) => {
   }
 
   const embed = new MessageEmbed()
-    .setAuthor({ name: "Blacklist", iconURL: get(Emojis.shield).url })
+    .setAuthor({ name: "Blacklist", iconURL: shield })
     .setDescription(description.join("\n\n"))
     .setColor(process.env.colorEmbed);
 
@@ -89,6 +76,6 @@ exports.help = {
   name: "blacklist",
   description: "Veja|adicione|remova usuários na blacklist",
   aliases: ["black"],
-  usage: "blacklist <id>",
+  usage: "blacklist <user|id>",
   category: "Owner",
 };

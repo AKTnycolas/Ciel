@@ -1,12 +1,11 @@
-const Emojis = require("../../utils/emojis");
-
+/*  eslint-disable max-len */
 exports.run = async (client, message, args) => {
   //------------------SET THE VARIABLES----------------------//
   const guild = message.guild;
-  const get = (id) => client.emojis.cache.get(id);
   const author = guild.members.cache.get(message.author.id);
 
-  let member = client.users.cache.get(args[0]) || message.mentions.users.first();
+  let member =
+    client.users.cache.get(args[0]) || message.mentions.users.first();
   member = guild.members.cache.get(member?.id);
   const reason = args[1] ? args.slice(1).join(" ") : "Não Informado";
   //-------------------------------------------------------//
@@ -47,16 +46,13 @@ exports.run = async (client, message, args) => {
     });
   }
   //-------------------------------------------------------//
-  
+
   //------------------VARIÁVEIS BASES----------------------//
   if (member.roles.cache.get(role.id)) {
     await member.roles.remove(role.id, { reason });
-    message.reply(
-      `${get(Emojis.yes)}│O usuário ${member.user} foi desmutado com sucesso!`);
+    message.reply(`O usuário ${member.user} foi desmutado com sucesso!`);
   } else {
-    message.reply(
-      `Esse usuário não está mutado!`
-    );
+    message.reply("Esse usuário não está mutado!");
   }
   //-------------------------------------------------------//
 };

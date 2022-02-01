@@ -1,9 +1,9 @@
 const { MessageEmbed } = require("discord.js");
-const { parseIn } = require("../../utils/plugins/dates.js");
 
 exports.run = async (client, message, args) => {
-  if (!args[0])
+  if (!args[0]) {
     return message.reply("Você não disse qual é o nome/id do emoji!");
+  }
 
   const emoji = client.emojis.cache.find(
     (x) => x.name === args[0] || x.id === args[0]

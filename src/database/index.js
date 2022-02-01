@@ -1,18 +1,21 @@
 const { connect } = require("mongoose");
-require("dotenv").config();
+const { readdirSync } = require("fs");
 
 module.exports = {
-  start() {
+  async start(client) {
     try {
-      connect(process.env.tokenData, {
-        "useNewUrlParser": true,
-        "useUnifiedTopology": true,
-        "useFindAndModify": false
-      })
+      await connect(process.env.tokenData);
+      const models = readdirSync("./src/database/Schemas/");
+      client.database = {};
       
-      console.log("[DATABASE] - Conectado ao banco de dados");
+      for (const model of models) {
+        const name = model.split(".")[0];
+        client.database[name] = require(`./Schemas/${model}`);
+      }
+
+      console.log("[DATABASE] - conectado ao banco de dados");
     } catch (err) {
-      console.log("[DATABASE] - " + err);
+      throw new Error("[DATABASE] - " + err);
     }
-  }
-}
+  },
+};

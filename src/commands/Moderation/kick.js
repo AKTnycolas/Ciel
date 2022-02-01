@@ -1,46 +1,35 @@
-const Emojis = require("../../utils/emojis");
-
 exports.run = async (client, message, args) => {
   //------------------BASE VARIABLES----------------------//
   const guild = message.guild;
-  const get = (id) => client.emojis.cache.get(id);
   const author = guild.members.cache.get(message.author.id);
-  
-  let member = message.mentions.users.first() || guild.members.cache.get(args[0])
+
+  let member =
+    message.mentions.users.first() || guild.members.cache.get(args[0]);
   member = guild.members.cache.get(member?.id);
   const reason = args[0] ? args.slice(1).join(" ") : "Não definido";
   //-------------------------------------------------------//
-  
+
   //-----------------------CHECKS--------------------------//
   if (!author.permissions.has("KICK_MEMBERS")) {
-    return message.reply(
-       `Você não tem permissão para kickar membros!`
-    );
+    return message.reply("Você não tem permissão para kickar membros!");
   } else if (!member || member.id === message.author.id) {
-    return message.reply(
-      "Usuário não encontrado!"
-    );
+    return message.reply("Usuário não encontrado!");
   } else if (!member.kickable) {
-    return message.reply(
-      `Eu não tenho permissão para kickar esse membro!`
-    );
+    return message.reply("Eu não tenho permissão para kickar esse membro!");
   }
   //-------------------------------------------------------//
-  
+
   //-----------------------KICK----------------------------//
-  member.kick(`Kickado por ${author.user.tag} - ${reason}`)
+  member
+    .kick(`Kickado por ${author.user.tag} - ${reason}`)
     .then(() => {
-      message.reply(
-        `${get(Emojis.yes)}│o usuário ${member.user.tag} foi kicado com sucesso!`
-      );
+      message.reply(`O usuário ${member.user.tag} foi kicado com sucesso!`);
     })
     .catch((err) => {
-      message.reply(
-        `${get(Emojis.no)}│Aconteceu algum error ao tentar kickar esse membro!`
-      );
+      message.reply("Aconteceu algum error ao tentar kickar esse membro!");
       console.error(err);
     });
-    //-------------------------------------------------------//
+  //-------------------------------------------------------//
 };
 
 exports.help = {

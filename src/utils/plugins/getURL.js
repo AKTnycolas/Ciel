@@ -6,18 +6,30 @@ async function getURL(message, args) {
   }
 
   if (mentions.users.first()) {
-    const user = mentions.users.first()
-    return user.displayAvatarURL({ dynamic: false, format: "png", size: 2048 });
+    const user = mentions.users.first();
+    return user.displayAvatarURL({
+      dynamic: false,
+      format: "png",
+      size: 2048
+    });
   }
 
   if (client.users.cache.get(args[0])) {
-    const user = client.users.cache.get(args[0])
-    return user.displayAvatarURL({ dynamic: false, format: "png", size: 2048 });
+    const user = client.users.cache.get(args[0]);
+    return user.displayAvatarURL({
+      dynamic: false,
+      format: "png",
+      size: 2048
+    });
   }
 
   if (client.users.findByName(args[0])) {
-    const user = client.users.findByName(args[0])
-    return user.displayAvatarURL({ dynamic: false, format: "png", size: 2048 });
+    const user = client.users.findByName(args[0]);
+    return user.displayAvatarURL({
+      dynamic: false,
+      format: "png",
+      size: 2048
+    });
   }
 
   if (checkLink(args[0])) {

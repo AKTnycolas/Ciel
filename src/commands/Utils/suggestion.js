@@ -1,6 +1,6 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const Emojis = require("../../utils/emojis");
+const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args) => {
   // a basic check.
@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
 
   //--------------------------VARIABLES--------------------------//
   const iconURL = message.author.displayAvatarURL({ dynamic: true });
-  const sug = client.emojis.cache.get(Emojis.yes).url;
+  const Emojis = new getter(client);
   const suport = "https://discord.gg/V9NQbXWqUs";
 
   const channel = client.channels.cache.get(process.env.sugChannel);
@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
 
   //---------------------------EMBED-----------------------------//
   const embed = new MessageEmbed()
-    .setAuthor({ name: "Uma nova sugestão", iconURL: sug })
+    .setAuthor({ name: "Uma nova sugestão", iconURL: Emojis.get("suport").url })
     .setThumbnail(iconURL)
     .addField("Autor: ", message.author.tag)
     .addField("Servidor: ", message.guild.name)
@@ -31,7 +31,7 @@ exports.run = async (client, message, args) => {
     new MessageButton()
       .setURL(suport)
       .setLabel("Suporte")
-      .setEmoji(Emojis.suport)
+      .setEmoji(Emojis.get("suport"))
       .setStyle("LINK"),
   ]);
 
@@ -40,8 +40,8 @@ exports.run = async (client, message, args) => {
   });
 
   await message.reply({
-    content: stripIndents`A sua sugestão foi enviado com sucesso. entre no meu servidor
-    de suporte para saber das novidades e atualizações`,
+    content: stripIndents`A sua sugestão foi enviado com sucesso.
+    entre no meu servidor de suporte para saber das novidades e atualizações`,
     components: [rowSupport],
   });
   //-------------------------------------------------------------//
