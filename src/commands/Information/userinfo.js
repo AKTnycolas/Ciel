@@ -1,6 +1,6 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const { dateAndDay } = require("../../utils/plugins/dates");
-const Emojis = require("../../utils/emojis");
+const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args) => {
   //------------------VARIÁVEIS BASES----------------------//
@@ -21,8 +21,7 @@ exports.run = async (client, message, args) => {
     ? fetchServer
     : message.guild;
 
-  const get = (id) => client.emojis.cache.get(id);
-
+  const Emojis = new getter(client);
   const member = referGuild.members.cache.get(author.id);
   //-------------------------------------------------------//
 
@@ -70,7 +69,7 @@ exports.run = async (client, message, args) => {
       ? "Nenhuma Insígnia"
       : author.flags
           .toArray()
-          .map((e) => Emojis[e])
+          .map((e) => Emojis.get(e))
           .join("") || "Nenhuma Insígnia";
 
   let roles;
@@ -85,9 +84,9 @@ exports.run = async (client, message, args) => {
   const pag1 = new MessageEmbed()
     .setAuthor({ name: member.nickname || author.tag, iconURL })
     .setThumbnail(iconURL)
-    .addField(`${get(Emojis.reference)} Servidor de Referência: `,referGuild.name)
-    .addField(`${get(Emojis.name)} Tag do Usuário: `, author.tag)
-    .addField(`${get(Emojis.edited)} Nickname: `, nickname)
+    .addField(`${Emojis.get("reference")} Servidor de Referência: `,referGuild.name)
+    .addField(`${Emojis.get("name")} Tag do Usuário: `, author.tag)
+    .addField(`${Emojis.get("edited")} Nickname: `, nickname)
     .addField(":date: Criação da Conta: ", createdAt)
     .addField(":date: Entrada no Server: ", joinedAt)
     .setColor(color)
@@ -98,9 +97,9 @@ exports.run = async (client, message, args) => {
     .setAuthor({ name: member.nickname || author.tag, iconURL })
     .setThumbnail(iconURL)
     .addField(":id: ID: ", author.id)
-    .addField(`${get(Emojis.person_programming)} Um Bot: `, bot)
+    .addField(`${Emojis.get("person_programming")} Um Bot: `, bot)
     .addField(":video_game: Atividade: ", presence)
-    .addField(`${get(Emojis.programmer)} Insígnias: `, badges)
+    .addField(`${Emojis.get("programmer")} Insígnias: `, badges)
     .addField("Cargos: ", roles)
     .setColor(color)
     .setTimestamp()
@@ -109,11 +108,11 @@ exports.run = async (client, message, args) => {
   const rowNext = new MessageActionRow().addComponents([
     new MessageButton()
       .setCustomId("next")
-      .setEmoji(Emojis.next)
+      .setEmoji(Emojis.get("next"))
       .setStyle("PRIMARY"),
     new MessageButton()
       .setCustomId("back")
-      .setEmoji(Emojis.back)
+      .setEmoji(Emojis.get("back"))
       .setStyle("PRIMARY")
       .setDisabled(true),
   ]);
@@ -121,12 +120,12 @@ exports.run = async (client, message, args) => {
   const rowBack = new MessageActionRow().addComponents([
     new MessageButton()
       .setCustomId("next")
-      .setEmoji(Emojis.next)
+      .setEmoji(Emojis.get("next"))
       .setStyle("PRIMARY")
       .setDisabled(true),
     new MessageButton()
       .setCustomId("back")
-      .setEmoji(Emojis.back)
+      .setEmoji(Emojis.get("back"))
       .setStyle("PRIMARY"),
   ]);
 

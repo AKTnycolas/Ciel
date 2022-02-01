@@ -1,10 +1,10 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
-const Emojis = require("../../utils/emojis");
+const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args) => {
   if (!args[0]) return message.reply("Você não disse o nome do usuário!");
 
-  const get = id => client.emojis.cache.get(id);
+  const Emojis = new getter(client);
   
   const authorTestName = encodeURIComponent(args.join(" "));
   const author = await fetch(`https://api.github.com/users/${authorTestName}`)
@@ -39,8 +39,8 @@ exports.run = async (client, message, args) => {
   const pag1 = new MessageEmbed()
     .setAuthor({ name, iconURL: avatar_url, url: html_url })
     .setThumbnail(avatar_url)
-    .addField(`${get(Emojis.name)} Nome: `, name)
-    .addField(`${get(Emojis.description)} Bio: `, bio ?? "Nenhuma bio")
+    .addField(`${Emojis.get("name")} Nome: `, name)
+    .addField(`${Emojis.get("description")} Bio: `, bio ?? "Nenhuma bio")
     .addField(":office: Companhia: ", company ?? "Nenhuma companhia")
     .addField(":date: Data De Criação: ", createdAt)
     .addField(":date: Último Update: ", updateAt)
@@ -50,22 +50,22 @@ exports.run = async (client, message, args) => {
   const pag2 = new MessageEmbed()
     .setAuthor({ name, iconURL: avatar_url, url: html_url })
     .setThumbnail(avatar_url)
-    .addField(`${get(Emojis.name)} Nome da Conta: `, login)
+    .addField(`${Emojis.get("name")} Nome da Conta: `, login)
     .addField(":id: Id: ", id.toString())
-    .addField(`${get(Emojis.followers)} Seguidores: `, followers.toString())
-    .addField(`${get(Emojis.following)} Seguindo: `, following.toString())
-    .addField(`${get(Emojis.repos)} Repositórios Público: `, public_repos.toString())
+    .addField(`${Emojis.get("followers")} Seguidores: `, followers.toString())
+    .addField(`${Emojis.get("following")} Seguindo: `, following.toString())
+    .addField(`${Emojis.get("repos")} Repositórios Público: `, public_repos.toString())
     .setColor(process.env.colorEmbed)
     .setFooter({ text: "Pág: 2/2" });
 
   const rowNext = new MessageActionRow().addComponents([
     new MessageButton()
       .setCustomId("next")
-      .setEmoji(Emojis.next)
+      .setEmoji(Emojis.get("next"))
       .setStyle("PRIMARY"),
     new MessageButton()
       .setCustomId("back")
-      .setEmoji(Emojis.back)
+      .setEmoji(Emojis.get("back"))
       .setStyle("PRIMARY")
       .setDisabled(true),
   ]);
@@ -73,12 +73,12 @@ exports.run = async (client, message, args) => {
   const rowBack = new MessageActionRow().addComponents([
     new MessageButton()
       .setCustomId("next")
-      .setEmoji(Emojis.next)
+      .setEmoji(Emojis.get("next"))
       .setStyle("PRIMARY")
       .setDisabled(true),
     new MessageButton()
       .setCustomId("back")
-      .setEmoji(Emojis.back)
+      .setEmoji(Emojis.get("back"))
       .setStyle("PRIMARY"),
   ]);
 

@@ -1,17 +1,17 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const Emojis = require("../../utils/emojis");
+const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args) => {
   // a basic check.
   if (!args[0]) return message.reply("Você não colocou o motivo!");
   if (args.join(" ").length < 25)
-    return message.reply("O seu report deve ter pelo menos 25 caracteres")
+    return message.reply("O seu report deve ter pelo menos 25 caracteres");
 
   //--------------------------VARIABLES--------------------------//
   const iconURL = message.author.displayAvatarURL({ dynamic: true });
-  const bug = client.emojis.cache.get(Emojis.no).url;
   const suport = "https://discord.gg/V9NQbXWqUs";
+  const Emojis = new getter(client);
 
   const channel = client.channels.cache.get(process.env.bugChannel);
   const reason = args.join(" ").slice(0, 200);
@@ -19,7 +19,10 @@ exports.run = async (client, message, args) => {
 
   //---------------------------EMBED-----------------------------//
   const embed = new MessageEmbed()
-    .setAuthor({ name: "Mais um bug encontrado", iconURL: bug })
+    .setAuthor({
+      name: "Mais um bug encontrado",
+      iconURL: Emojis.get("bug").url,
+    })
     .setThumbnail(iconURL)
     .addField("Autor: ", message.author.tag)
     .addField("Servidor: ", message.guild.name)
@@ -31,7 +34,7 @@ exports.run = async (client, message, args) => {
     new MessageButton()
       .setURL(suport)
       .setLabel("Suporte")
-      .setEmoji(Emojis.suport)
+      .setEmoji(Emojis.get("suport"))
       .setStyle("LINK"),
   ]);
 
@@ -40,8 +43,8 @@ exports.run = async (client, message, args) => {
   });
 
   await message.reply({
-    content: stripIndents`O seu report foi enviado com sucesso. entre no meu servidor
-    de suporte para saber das novidades e atualizações`,
+    content: stripIndents`O seu report foi enviado com sucesso.
+    entre no meu servidor de suporte para saber das novidades e atualizações`,
     components: [rowSupport],
   });
   //-------------------------------------------------------------//

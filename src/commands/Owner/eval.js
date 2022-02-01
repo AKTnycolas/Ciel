@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
   //---------------------------KEYWORDS--------------------------//
   const { author, member, guild, channel } = message;
 
-  let code = args.join(" ");
+  const code = args.join(" ");
   let result, type;
   //-------------------------------------------------------------//
 
@@ -32,11 +32,8 @@ exports.run = async (client, message, args) => {
     .addField(":thinking: Tipo de Saída: ", `\`\`\`\n${typeof type}\`\`\``)
     .setColor(process.env.colorEmbed);
 
-  await message.reply({
-    embeds: [embed]
-  }).catch(err => {
-    message.channel.send("Error ao tentar enviar a embed!");
-    console.log(err);
+  message.reply({
+    embeds: [embed],
   });
   //-------------------------------------------------------------//
 

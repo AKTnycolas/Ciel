@@ -1,31 +1,22 @@
 const { MessageEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
-const Emojis = require("../../utils/emojis");
+const { getter } = require("../../utils/emojis");
 
-exports.run = async (client, message, args, { server }) => {
+exports.run = async (client, message, args) => {
   //---------------------COMMAND VARIABLES-----------------------//
   const iconURL = client.user.displayAvatarURL({ dynamic: true });
-  const get = (id) => client.emojis.cache.get(id);
+  const Emojis = new getter(client);
 
   const embed = new MessageEmbed()
     .setAuthor({ name: "Central De Comandos", iconURL })
     .setColor(process.env.colorEmbed);
 
-  const categorys = {
-    Config: "Configurações",
-    Information: "Informações",
-    Fun: "Diversão",
-    Moderation: "Moderação",
-    Owner: "Owner",
-    Utils: "Utils",
-  };
-
-  let Config = [];
-  let Information = [];
-  let Fun = [];
-  let Moderation = [];
-  let Owner = [];
-  let Utils = [];
+  const Config = [];
+  const Information = [];
+  const Fun = [];
+  const Moderation = [];
+  const Owner = [];
+  const Utils = [];
 
   client.commands
     .map((cmd) => cmd)
@@ -61,17 +52,25 @@ exports.run = async (client, message, args, { server }) => {
       const { name, description, aliases, usage } = cmd.help;
 
       embed
-        .addField(`${get(Emojis.name)} Nome Original: `, name)
-        .addField(`${get(Emojis.description)} Descrição: `, description)
-        .addField(`${get(Emojis.DISCORD_PARTNER_ID)} Aliases: `, aliases.join(", ") || "Não tem aliases")
-        .addField(`${get(Emojis.edited)} Modos de Usar: `, server.prefix + usage);
+        .addField(`${Emojis.get("name")} Nome Original: `, name)
+        .addField(`${Emojis.get("description")} Descrição: `, description)
+        .addField(
+          `${Emojis.get("DISCORD_PARTNER_ID")} Aliases: `,
+          aliases.join(", ") || "Não tem aliases"
+        )
+        .addField(
+          `${Emojis.get("edited")} Modos de Usar: `,
+          process.env.basePrefix + usage
+        );
 
       return message.reply({
         embeds: [embed],
       });
     } else {
       // if you don't find the command
-      embed.setDescription(`${get(Emojis.no)} O comando **${args[0]}** não foi encontrado.`);
+      embed.setDescription(
+        `${Emojis.get("no")} O comando **${args[0]}** não foi encontrado.`
+      );
       return message.reply({
         embeds: [embed],
       });
@@ -86,32 +85,33 @@ exports.run = async (client, message, args, { server }) => {
     algum bug, use o comando **bugreport**, caso
     queria deixar uma sugestão use o comando **suggestion**
         ㅤ
-    `)
+    `
+    )
     .addField(
-      `${get(Emojis.settingsId)} Configuração: (${Config.length})`,
+      `${Emojis.get("settingsId")} Configuração: (${Config.length})`,
       `\`\`\`\n${Config.sort().join(" - ")}\`\`\``
     )
     .addField(
-      `${get(Emojis.moderation)} Configuração: (${Moderation.length})`,
+      `${Emojis.get("moderation")} Configuração: (${Moderation.length})`,
       `\`\`\`\n${Moderation.sort().join(" - ")}\`\`\``
     )
     .addField(
-      `${get(Emojis.information)} Informação: (${Information.length})`,
+      `${Emojis.get("information")} Informação: (${Information.length})`,
       `\`\`\`\n${Information.sort().join(" - ")}\`\`\``
     )
     .addField(
-      `${get(Emojis.fun)} Diversão: (${Fun.length})`,
+      `${Emojis.get("fun")} Diversão: (${Fun.length})`,
       `\`\`\`\n${Fun.sort().join(" - ")}\`\`\``
     )
     .addField(
-      `${get(Emojis.utils)} Utils: (${Utils.length})`,
+      `${Emojis.get("utils")} Utils: (${Utils.length})`,
       `\`\`\`\n${Utils.sort().join(" - ")}\`\`\``
     );
 
   // in case it's me
   if (message.author.id == process.env.ownerId)
     embed.addField(
-      `${get(Emojis.coroa)} Owners: (${Owner.length})`,
+      `${Emojis.get("coroa")} Owners: (${Owner.length})`,
       `\`\`\`\n${Owner.sort().join(" - ")}\`\`\``
     );
 
@@ -125,6 +125,6 @@ exports.help = {
   name: "help",
   description: "Veja a minha lista de Comandos",
   aliases: ["commands"],
-  usage: `help <command>`,
+  usage: "help <command>",
   category: "Information",
 };

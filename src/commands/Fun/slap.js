@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
-const Image = require("../../database/Schemas/Image.js");
 
 exports.run = async (client, message, args) => {
+  const { Image } = client.database;
   const author = message.author;
   const somebody = message.mentions.users.first();
 
@@ -11,8 +11,9 @@ exports.run = async (client, message, args) => {
 
   const doc = await Image.findById("slap");
   let images = doc?.images;
-  if (!images || images.length === 0) images = ["https://imgur.com/UOsp0hC.gif"]; 
-
+  
+  if (!images || images.length === 0)
+    images = ["https://imgur.com/UOsp0hC.gif"];
   const chosenImage = images[Math.floor(Math.random() * images.length)];
 
   const embed = new MessageEmbed()
