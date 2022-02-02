@@ -6,6 +6,7 @@ module.exports = {
     //------------------VARIÁVEIS BASES----------------------//
     client.commands = new Collection();
     client.aliases = new Collection();
+    client.cooldowns = [];
     //-------------------------------------------------------//
 
     //----------------LOADING THE COMMANDS-------------------//

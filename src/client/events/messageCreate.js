@@ -69,7 +69,7 @@ module.exports = async (client, message) => {
 
   if (cmdFile) {
     if (cmdData) {
-      if (cmdData.manu && message.author.id !== process.env.ownerId)
+      if (cmdData.manu && author.id !== process.env.ownerId)
         return message.reply(
           "Esse comando está em **manutenção** no momento ¯\\_(ツ)_/¯"
         );
@@ -79,6 +79,19 @@ module.exports = async (client, message) => {
 
     const banned = await Black.findById(author.id);
     if (banned) return message.reply("Você está na minha blacklist!");
+
+    if (client.cooldowns.includes(author.id)) {
+      if (author.id === process.env.ownerId) {}
+      else return message.reply(
+        "Por favor espere **3** segundos para poder usar outro comando novamente."
+      );
+    } else {
+      client.cooldowns.push(author.id);
+      setTimeout(
+        () => client.cooldowns.splice(client.cooldowns.indexOf(author.id), 1),
+        3000
+      );
+    }
 
     try {
       await cmdFile.run(client, message, args, { server, user });
