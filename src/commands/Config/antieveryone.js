@@ -1,8 +1,8 @@
 exports.run = async (client, message, {}, { server }) => {
   //------------------SIMPLE VERIFICATION------------------//
   const member = message.member;
-  if (!member.permissions.has("MANAGER_MESSAGES")) {
-    return message.reply("Você na tem permissão de gerenciar mensagens!");
+  if (!member.permissions.has("MANAGE_GUILD")) {
+    return message.reply("Você precisa da permissão de Gerenciar Guilda!");
   }
   //-------------------------------------------------------//
 

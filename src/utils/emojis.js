@@ -74,6 +74,13 @@ module.exports = {
   bug: "911991971717980202",
   pag: "912005931179597854",
   wrong_theme_2: "912009031256772659",
+  
+  // welcome
+  "channel": "910923008875593738",
+  "info_azul": "855616855476535327",
+  
+  // messageDelete
+  "trash": "939123051054899220",
 
   // discord badges
   DISCORD_EMPLOYEE: "910922866227294228",

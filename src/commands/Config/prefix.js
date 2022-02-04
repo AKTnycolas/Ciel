@@ -5,8 +5,8 @@ exports.run = async (client, message, args, { server }) => {
   //-------------------------------------------------------//
 
   //------------------VARIÁVEIS BASES----------------------//
-  if (!member.permissions.has("ADMINISTRATOR")) {
-    return message.reply("Você não tem permissão de administrador!");
+  if (!member.permissions.has("MANAGE_MESSAGES")) {
+    return message.reply("Você não tem permissão de Gerenciar Mensagens!");
   } else if (!prefix) {
     return message.reply("Você não disse o prefixo!");
   } else if (prefix.length > 5) {
