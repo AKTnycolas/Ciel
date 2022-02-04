@@ -92,7 +92,7 @@ exports.run = async (client, message, args) => {
       `\`\`\`\n${Config.sort().join(" - ")}\`\`\``
     )
     .addField(
-      `${Emojis.get("moderation")} Configuração: (${Moderation.length})`,
+      `${Emojis.get("moderation")} Moderação: (${Moderation.length})`,
       `\`\`\`\n${Moderation.sort().join(" - ")}\`\`\``
     )
     .addField(
