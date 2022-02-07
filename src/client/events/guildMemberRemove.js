@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-const cvt = require("../../utils/plugins/convertNumbers");
+const cvt = require("../../utils/plugins/convertEmojis");
 
 module.exports = async (client, member) => {
   const { Guild } = client.database;

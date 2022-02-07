@@ -4,7 +4,6 @@ const { stripIndents } = require("common-tags");
 
 exports.run = async (client, message, args) => {
   //------------------------VERIFICATIONS------------------------//
-  if (message.author.id !== process.env.ownerId) return;
   if (!args[0]) return message.reply("Nenhum Argumento Foi Passado");
   //-------------------------------------------------------------//
   

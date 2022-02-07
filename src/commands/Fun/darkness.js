@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { MessageAttachment } = require("discord.js");
 const Canvas = require("canvas");
 const getURL = require("../../utils/plugins/getURL");
 

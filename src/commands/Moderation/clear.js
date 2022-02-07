@@ -3,15 +3,10 @@ exports.run = async (client, message, args) => {
   //------------------VARIÁVEIS BASES----------------------//
   const guild = message.guild;
   const amount = parseInt(args[0]) + 1;
-  const author = guild.members.cache.get(message.author.id);
   //-------------------------------------------------------//
 
-  //------------------VARIÁVEIS BASES----------------------//
-  if (!author.permissions.has("MANAGE_MESSAGES")) {
-    return message.reply(
-      "Você precisa da permissão de **MANAGE_MESSAGES** para poder usar o comando!"
-    );
-  } else if (!guild.me.permissions.has("MANAGE_MESSAGES")) {
+  //------------------VERIFICATIONS----------------------//
+  if (!guild.me.permissions.has("MANAGE_MESSAGES")) {
     return message.reply(
       "Eu preciso da permissão de **MANAGE_MESSAGES** para poder executar o comando!"
     );
@@ -41,5 +36,6 @@ module.exports.help = {
   description: "Limpa as mensagens no chat",
   aliases: ["limpar", "apagar"],
   usage: "clear [quantidade]",
+  permissions: ["MANAGE_MESSAGES"],
   category: "Moderation",
 };

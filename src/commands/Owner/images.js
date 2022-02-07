@@ -4,8 +4,6 @@ exports.run = async (client, message, args) => {
   const { Image } = client.database;
 
   //---------------------LIST OF IMAGES-----------------------------//
-  if (message.author.id !== process.env.ownerId) return;
-
   if (!args[0]) {
     const embed = new MessageEmbed()
       .setAuthor({

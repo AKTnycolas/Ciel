@@ -10,9 +10,7 @@ exports.run = async (client, message, args) => {
   //-------------------------------------------------------//
 
   //-----------------------CHECKS--------------------------//
-  if (!author.permissions.has("KICK_MEMBERS")) {
-    return message.reply("Você não tem permissão para kickar membros!");
-  } else if (!member || member.id === message.author.id) {
+  if (!member || member.id === message.author.id) {
     return message.reply("Usuário não encontrado!");
   } else if (!member.kickable) {
     return message.reply("Eu não tenho permissão para kickar esse membro!");
@@ -37,5 +35,6 @@ exports.help = {
   description: "kicka um usuário",
   aliases: ["kickar"],
   usage: "kick [menção|id]",
+  permissions: ["KICK_MEMBERS"],
   category: "Moderation",
 };

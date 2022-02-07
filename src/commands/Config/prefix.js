@@ -1,13 +1,10 @@
 exports.run = async (client, message, args, { server }) => {
   //-------------------BASE VARIABLES----------------------//
-  const { member } = message;
   const prefix = args[0];
   //-------------------------------------------------------//
 
   //------------------VARIÁVEIS BASES----------------------//
-  if (!member.permissions.has("MANAGE_MESSAGES")) {
-    return message.reply("Você não tem permissão de Gerenciar Mensagens!");
-  } else if (!prefix) {
+  if (!prefix) {
     return message.reply("Você não disse o prefixo!");
   } else if (prefix.length > 5) {
     return message.reply("O máximo de caracteres permitido é de **5**!");
@@ -55,5 +52,6 @@ exports.help = {
   description: "Altere o meu prefixo",
   aliases: ["prefixo", "reset-prefix"],
   usage: "prefix <prefixo|reset>",
+  permissions: ["MANAGE_GUILD"],
   category: "Config",
 };

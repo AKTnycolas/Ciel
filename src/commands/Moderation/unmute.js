@@ -62,5 +62,6 @@ exports.help = {
   description: "Desmuta um usuário",
   aliases: ["desmutar"],
   usage: "unmute [menção|id]",
+  permissions: ["MODERATE_MEMBERS"],
   category: "Moderation",
 };

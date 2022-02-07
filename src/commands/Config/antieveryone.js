@@ -1,11 +1,4 @@
 exports.run = async (client, message, {}, { server }) => {
-  //------------------SIMPLE VERIFICATION------------------//
-  const member = message.member;
-  if (!member.permissions.has("MANAGE_GUILD")) {
-    return message.reply("Você precisa da permissão de Gerenciar Guilda!");
-  }
-  //-------------------------------------------------------//
-
   //---------------------ON OR OFF-------------------------//
   if (server.antieveryone) server.antieveryone = false;
   else server.antieveryone = true;
@@ -25,5 +18,6 @@ module.exports.help = {
   description: "Ligue ou desligue o sistema antieveryone",
   aliases: ["everyone"],
   usage: "antieveryone",
+  permissions: ["MANAGE_GUILD"],
   category: "Config",
 };

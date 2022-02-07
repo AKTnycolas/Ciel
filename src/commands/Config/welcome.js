@@ -6,12 +6,7 @@ exports.run = async (client, message, args, { server }) => {
   //------------------BASE VARIABLES----------------------//
   const Emojis = new getter(client);
   const iconURL = message.guild.iconURL({ dynamic: true });
-  const member = message.member;
-  //-------------------------------------------------------//
-
-  if (!member.permissions.has("MANAGE_GUILD")) {
-    return message.reply("Você precisa da permissão de Gerenciar Guilda!");
-  }
+  //-------------------------------------------------------/
 
   //-----------------------CHANNEL------------------------//
   if (["canal", "channel"].includes(args[0])) {
@@ -103,5 +98,6 @@ module.exports.help = {
   description: "Configure o sistema de welcome",
   aliases: ["wel"],
   usage: "welcome <status|message|canal>",
+  permissions: ["MANAGE_GUILD"],
   category: "Config",
 };

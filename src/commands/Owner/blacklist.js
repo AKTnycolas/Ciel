@@ -3,8 +3,6 @@ const { stripIndents } = require("common-tags");
 const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args) => {
-  if (message.author.id !== process.env.ownerId) return;
-
   //-------------------BASE VARIABLES----------------------//
   const shield = new getter(client).get("shield").url;
   const reason = args[2] ? args.slice(2).join(" ") : "Não definido";
