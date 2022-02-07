@@ -19,7 +19,7 @@ const schemaGuild = new Schema({
   },
   count: {
     toggle: { type: Boolean, default: false },
-    message: { type: String, default: "nenhum" },
+    message: { type: String, default: "{contador}" },
     channel: { type: String, default: "nenhum" }
   },
   antieveryone: { type: Boolean, default: false },

@@ -10,6 +10,7 @@ module.exports = async (client, message) => {
   const { User, Guild, Black, Command } = client.database;
   const author = message.author;
   const guild = message.guild;
+  const member = message.member;
   //-------------------------------------------------------//
 
   //----------------CREATE CASE DOESN'T EXIST--------------//
@@ -68,6 +69,7 @@ module.exports = async (client, message) => {
   const cmdData = await Command.findById(cmdFile?.help?.name);
 
   if (cmdFile) {
+    //------------------MAINTENANCE SYSTEM-------------------//
     if (cmdData) {
       if (cmdData.manu && author.id !== process.env.ownerId)
         return message.reply(
@@ -76,15 +78,20 @@ module.exports = async (client, message) => {
     } else {
       await Command.create({ _id: cmdFile.help.name });
     }
+    //-------------------------------------------------------//
 
+    //------------------BLACKLIST SYSTEM---------------------//
     const banned = await Black.findById(author.id);
     if (banned) return message.reply("Você está na minha blacklist!");
+    //-------------------------------------------------------//
 
+    //------------------COOLDOWN SYSTEM----------------------//
     if (client.cooldowns.includes(author.id)) {
-      if (author.id === process.env.ownerId) {}
-      else return message.reply(
-        "Por favor espere **3** segundos para poder usar outro comando novamente."
-      );
+      if (author.id === process.env.ownerId) {
+      } else
+        return message.reply(
+          "Por favor espere **3** segundos para poder usar outro comando novamente."
+        );
     } else {
       client.cooldowns.push(author.id);
       setTimeout(
@@ -92,6 +99,23 @@ module.exports = async (client, message) => {
         3000
       );
     }
+    //-------------------------------------------------------//
+
+    //---------------------SOME CHECKS-----------------------//
+    if (cmdFile.help.permissions) {
+      for (const permission of cmdFile.help.permissions) {
+        if (!member.permissions.has(permission)) {
+          return message.reply(
+            `Você precisa da permissão **${permission}** para executar esee comando!`
+          );
+        }
+      }
+    }
+
+    if (cmdFile.help.category === "Owner" && author.id !== process.env.ownerId) {
+      return;
+    }
+    //-------------------------------------------------------//
 
     try {
       await cmdFile.run(client, message, args, { server, user });

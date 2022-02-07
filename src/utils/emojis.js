@@ -17,6 +17,7 @@ module.exports = {
   loading: "910922731527208970",
   next: "910922776930549772",
   back: "910922770932707400",
+  statistics: "940193735868825621",
 
   // manu
   update_system: "909904062743474187",
@@ -74,13 +75,13 @@ module.exports = {
   bug: "911991971717980202",
   pag: "912005931179597854",
   wrong_theme_2: "912009031256772659",
-  
+
   // welcome
-  "channel": "910923008875593738",
-  "info_azul": "855616855476535327",
-  
+  channel: "910923008875593738",
+  info_azul: "855616855476535327",
+
   // messageDelete
-  "trash": "939123051054899220",
+  trash: "939123051054899220",
 
   // discord badges
   DISCORD_EMPLOYEE: "910922866227294228",
@@ -99,4 +100,42 @@ module.exports = {
   VERIFIED_BOT: "910922872132890675",
   VERIFIED_BOT_ID: "905019666584449055",
   DISCORD_PARTNER_ID: "904835160216858674",
+
+  a: ":regional_indicator_a:",
+  b: ":regional_indicator_b:",
+  c: ":regional_indicator_c:",
+  d: ":regional_indicator_d:",
+  e: ":regional_indicator_e:",
+  f: ":regional_indicator_f:",
+  g: ":regional_indicator_g:",
+  h: ":regional_indicator_h:",
+  i: ":regional_indicator_i:",
+  j: ":regional_indicator_j:",
+  k: ":regional_indicator_k:",
+  l: ":regional_indicator_l:",
+  m: ":regional_indicator_m:",
+  n: ":regional_indicator_n:",
+  o: ":regional_indicator_o:",
+  p: ":regional_indicator_p:",
+  q: ":regional_indicator_q:",
+  r: ":regional_indicator_r:",
+  s: ":regional_indicator_s:",
+  t: ":regional_indicator_t:",
+  u: ":regional_indicator_u:",
+  v: ":regional_indicator_v:",
+  w: ":regional_indicator_w:",
+  x: ":regional_indicator_x:",
+  y: ":regional_indicator_y:",
+  z: ":regional_indicator_z:",
+
+  0: ":zero:",
+  1: ":one:",
+  2: ":two:",
+  3: ":three:",
+  4: ":four:",
+  5: ":five:",
+  6: ":six:",
+  7: ":seven:",
+  8: ":eight:",
+  9: ":nine:",
 };

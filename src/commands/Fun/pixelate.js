@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { MessageAttachment } = require("discord.js");
 const Canvas = require("canvas");
 const getURL = require("../../utils/plugins/getURL");
 
@@ -28,7 +28,7 @@ exports.run = async (client, message, args) => {
 
 module.exports.help = {
   name: "pixelate",
-  description: "Faça uma imagem toda pixelada",
+  description: "Faça uma imagem ficar pixelada",
   aliases: ["pixel", "pixels"],
   usage: "pixelate <anexo|user|id|nome|url>",
   category: "Fun",

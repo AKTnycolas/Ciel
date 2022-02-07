@@ -1,17 +1,13 @@
 const { MessageEmbed } = require("discord.js");
+const { stripIndents } = require("common-tags");
 const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args, { server }) => {
   //-------------------BASE VARIABLES----------------------//
   const Emojis = new getter(client);
   const iconURL = message.guild.iconURL({ dynamic: true });
-  const member = message.member;
   //-------------------------------------------------------//
-
-  if (!member.permissions.has("MANAGE_GUILD")) {
-    return message.reply("Você precisa da permissão Gerenciar Guilda!");
-  }
-
+  
   //----------------------STATUS--------------------------//
   if (["status", "sts"].includes(args[0])) {
     const toggle = server.count.toggle
@@ -62,12 +58,19 @@ exports.run = async (client, message, args, { server }) => {
     server.count.channel === "nenhum"
       ? server.count.channel
       : `<#${server.count.channel}>`;
+  
+  const uses = stripIndents`
+  > ${server.prefix}contador status
+  > ${server.prefix}contador canal <#${message.channelId}>
+  > ${server.prefix}contador mensagem **{contador} membros**
+  `;
 
   const embed = new MessageEmbed()
     .setThumbnail(iconURL)
     .addField(`${Emojis.get("info_azul")} Status do Sistema: `, toggle)
     .addField(`${Emojis.get("channel")} Canal: `, channel)
     .addField(`${Emojis.get("description")} Mensagem: `, server.count.message)
+    .addField(`${Emojis.get("DISCORD_PARTNER_ID")} Possíveis Usos`, uses)
     .setColor(process.env.colorEmbed);
 
   message.reply({
@@ -81,5 +84,6 @@ module.exports.help = {
   description: "Configure o contador de membros",
   aliases: ["cont", "counter"],
   usage: "contador <status|mensagem>",
+  permissions: ["MANAGE_GUILD"],
   category: "Config",
 };

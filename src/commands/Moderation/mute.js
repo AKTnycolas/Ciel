@@ -11,9 +11,7 @@ exports.run = async (client, message, args) => {
   //-------------------------------------------------------//
 
   //------------------CHECK PERMISSIONS----------------------//
-  if (!author.permissions.has("MUTE_MEMBERS")) {
-    return message.reply("Você não tem a permissão de mutar membros!");
-  } else if (!guild.me.permissions.has("MUTE_MEMBERS")) {
+  if (!guild.me.permissions.has("MUTE_MEMBERS")) {
     return message.reply(
       "Eu preciso da permissão de **MUTE_MEMBERS** para poder usar o comando!"
     );
@@ -63,5 +61,6 @@ exports.help = {
   description: "muta um usuário",
   aliases: ["silenciar"],
   usage: "mute [menção|id]",
+  permissions: ["MODERATE_MEMBERS"],
   category: "Moderation",
 };

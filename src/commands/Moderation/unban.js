@@ -9,9 +9,7 @@ exports.run = async (client, message, args) => {
   //-------------------------------------------------------//
 
   //------------------PERMISSION VERIFICATION----------------------//
-  if (!author.permissions.has("BAN_MEMBERS")) {
-    return message.reply("Você não tem permissão para desbanir ninguém!");
-  } else if (!user || user.id === author.id) {
+  if (!user || user.id === author.id) {
     return message.reply("Você deve inserir o id do usuário a ser desbanido!");
   } else if (!ban) {
     return message.reply("Esse usuário não está banido!");
@@ -36,5 +34,6 @@ module.exports.help = {
   description: "Desbane um usuário",
   aliases: ["banir"],
   usage: "unban [id]",
+  permissions: ["BAN_MEMBERS"],
   category: "Moderation",
 };

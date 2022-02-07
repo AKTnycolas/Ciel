@@ -3,7 +3,6 @@ const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args) => {
   //---------------------SOME CHECKS-----------------------------//
-  if (message.author.id !== process.env.ownerId) return;
   if (!args[0]) return message.reply("Você não inseriu o nome do comando!");
   //-------------------------------------------------------------//
   const Emojis = new getter(client);

@@ -3,8 +3,6 @@ const { stripIndents } = require("common-tags");
 const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args) => {
-  if (message.author.id !== process.env.ownerId) return;
-
   //------------------PLACE OR TAKE OFF-------------------//
   const { Command } = client.database;
   const Emojis = new getter(client);

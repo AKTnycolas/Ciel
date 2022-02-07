@@ -10,9 +10,7 @@ exports.run = async (client, message, args) => {
   //-------------------------------------------------------//
 
   //------------------PERMISSION VERIFICATION----------------------//
-  if (!author.permissions.has("BAN_MEMBERS")) {
-    return message.reply("Você não tem permissão para banir ninguém!");
-  } else if (!member || member.id === author.id) {
+  if (!member || member.id === author.id) {
     return message.reply(
       "Você deve mencionar/inserir o id do usuário a ser banido!"
     );
@@ -42,5 +40,6 @@ module.exports.help = {
   description: "bane um usuário",
   aliases: ["banir"],
   usage: "ban [menção|id]",
+  permissions: ["BAN_MEMBERS"],
   category: "Moderation",
 };
