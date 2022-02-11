@@ -18,6 +18,9 @@ module.exports = {
   next: "910922776930549772",
   back: "910922770932707400",
   statistics: "940193735868825621",
+  
+  // Economy
+  "wallet": "941138646373912597",
 
   // manu
   update_system: "909904062743474187",
@@ -45,6 +48,7 @@ module.exports = {
 
   // help command
   moderation: "910048649462042664",
+  Economy: "940977801580924928",
   information: "910922942790119466",
   fun: "931015851405090846",
   utils: "910922948213366784",

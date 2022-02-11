@@ -58,7 +58,7 @@ exports.run = async (client, message, args) => {
 
   collector.on("collect", async (i) => {
     if (i.user.id !== message.author.id) {
-      await i.reply({
+      return i.reply({
         content: "Só apenas quem executou o comando pode interagir com ele",
         ephemeral: true,
       });

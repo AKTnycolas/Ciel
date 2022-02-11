@@ -61,7 +61,7 @@ exports.run = async (client, message, args) => {
 
   collector.on("collect", async (i) => {
     if (i.user.id !== message.author.id) {
-      await i.reply({
+      return i.reply({
         content: "Só apenas quem executou o comando pode interagir com ele",
         ephemeral: true,
       });
@@ -81,7 +81,7 @@ exports.run = async (client, message, args) => {
   //-------------------------------------------------------//
 
   //--------------------KEYBOARD--------------------------//
-  async function keyboard(key, i) {
+  async function keyboard(key) {
     if (key === "clear") value = "0";
     else if (!"clear=".includes(key)) {
       if ("0Cálculo Inválido!".includes(value)) value = key;
