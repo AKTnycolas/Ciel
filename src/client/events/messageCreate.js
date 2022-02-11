@@ -51,6 +51,24 @@ module.exports = async (client, message) => {
   }
   //-------------------------------------------------------------//
 
+  const { xp, level, nextLevel } = user.exp;
+  const newXp = Math.floor(Math.random() * 6) + 1;
+
+  // setting xp
+  await User.findByIdAndUpdate(author.id, {
+    "exp.xp": xp + newXp,
+  });
+
+  if (xp >= nextLevel) {
+    await User.findByIdAndUpdate(author.id, {
+      "exp.xp": 0,
+      "exp.level": level + 1,
+      "exp.nextLevel": nextLevel * level,
+    });
+
+    message.reply(`Parabéns você acaba de subir para o nível **${level + 1}**`);
+  }
+
   //------------------------EXECUTE COMMANDS------------------------//
   const prefix = await server.prefix;
 
@@ -112,7 +130,10 @@ module.exports = async (client, message) => {
       }
     }
 
-    if (cmdFile.help.category === "Owner" && author.id !== process.env.ownerId) {
+    if (
+      cmdFile.help.category === "Owner" &&
+      author.id !== process.env.ownerId
+    ) {
       return;
     }
     //-------------------------------------------------------//
