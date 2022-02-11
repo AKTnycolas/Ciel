@@ -6,6 +6,11 @@ const schemaUser = new Schema({
     coins: { type: Number, default: 0 },
     bank: { type: Number, default: 0 },
   },
+  exp: {
+    xp: { type: Number, default: 1 },
+    level: { type: Number, default: 1 },
+    nextLevel: { type: Number, default: 100 },
+  },
   cooldowns: {
     daily: { type: Number, default: 0 },
     work: { type: Number, default: 0 },
