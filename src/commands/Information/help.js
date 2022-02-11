@@ -12,6 +12,7 @@ exports.run = async (client, message, args) => {
     .setColor(process.env.colorEmbed);
 
   const Config = [];
+  const Economy = [];
   const Information = [];
   const Fun = [];
   const Moderation = [];
@@ -24,6 +25,7 @@ exports.run = async (client, message, args) => {
       const { category, name } = cmd.help;
 
       if (category === "Config") Config.push(name);
+      if (category === "Economy") Economy.push(name);
       if (category === "Information") Information.push(name);
       if (category === "Fun") Fun.push(name);
       if (category === "Moderation") Moderation.push(name);
@@ -95,6 +97,9 @@ exports.run = async (client, message, args) => {
       `${Emojis.get("moderation")} Moderação: (${Moderation.length})`,
       `\`\`\`\n${Moderation.sort().join(" - ")}\`\`\``
     )
+    .addField(
+      `${Emojis.get("Economy")} Economia: (${Economy.length})`,
+      `\`\`\`\n${Economy.sort().join(" - ")}\`\`\``)
     .addField(
       `${Emojis.get("information")} Informação: (${Information.length})`,
       `\`\`\`\n${Information.sort().join(" - ")}\`\`\``
