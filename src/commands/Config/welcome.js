@@ -4,6 +4,7 @@ const { stripIndents } = require("common-tags");
 
 exports.run = async (client, message, args, { server }) => {
   //------------------BASE VARIABLES----------------------//
+  const { Guild } = client.database;
   const Emojis = new getter(client);
   const iconURL = message.guild.iconURL({ dynamic: true });
   //-------------------------------------------------------/
@@ -21,8 +22,9 @@ exports.run = async (client, message, args, { server }) => {
       return message.reply("Esse canal já está setado atualmente!");
     }
 
-    server.welcome.channel = channel.id;
-    await server.save();
+    await Guild.findByIdAndUpdate({
+      "welcome.channel": channel.id,
+    });
 
     return message.reply(`O canal <#${channel.id}> foi setado com sucesso!`);
   }
@@ -38,8 +40,9 @@ exports.run = async (client, message, args, { server }) => {
       return message.reply("Essa mensagem já está setada atualmente!");
     }
 
-    server.welcome.message = Util.cleanCodeBlockContent(msg.substring(0, 220));
-    await server.save();
+    await Guild.findByIdAndUpdate(server._id, {
+      "welcome.message": Util.cleanCodeBlockContent(msg.substring(0, 220)),
+    });
 
     return message.reply("A mensagem foi setada com sucesso!");
   }
@@ -52,8 +55,9 @@ exports.run = async (client, message, args, { server }) => {
       .replace("true", "desativado")
       .replace("false", "ativado");
 
-    server.welcome.toggle = !server.welcome.toggle;
-    await server.save();
+    await Guild.findByIdAndUpdate(server._id, {
+      "welcome.toggle": !server.welcome.toggle,
+    });
 
     return message.reply(`O sistema de welcome foi **${status}** com sucesso!`);
   }

@@ -1,11 +1,10 @@
 exports.run = async (client, message, {}, { server }) => {
   //---------------------ON OR OFF-------------------------//
-  if (server.antieveryone) server.antieveryone = false;
-  else server.antieveryone = true;
-  await server.save();
+  await Guild.findByIdAndUpdate(server._id, {
+    "antieveryone": !server.atieveryone,
+  });
 
-  const toggle = server.antieveryone
-    .toString()
+  const toggle = `${!server.antieveryone}`
     .replace("true", "ativado")
     .replace("false", "desativado");
 

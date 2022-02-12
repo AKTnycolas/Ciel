@@ -30,9 +30,9 @@ module.exports = async (client, message) => {
   } catch (err) {
     notifier(client, "Database Error", err);
   }
-  //-------------------------------------------------------------//
+  //--------------------------------------------------------//
 
-  //------------------------ANTIEVERYONE SYSTEM------------------------//
+  //-------------------ANTIEVERYONE SYSTEM------------------//
   const everyone = guild.members.cache
     .get(author.id)
     .permissions.has("MENTION_EVERYONE");
@@ -49,8 +49,9 @@ module.exports = async (client, message) => {
       notifier(client, "Rejeição Tradada", err);
     }
   }
-  //-------------------------------------------------------------//
+  //-----------------------------------------------------//
 
+  //----------------------XP SYSTEM----------------------//
   const { xp, level, nextLevel } = user.exp;
   const newXp = Math.floor(Math.random() * 6) + 1;
 
@@ -68,8 +69,9 @@ module.exports = async (client, message) => {
 
     message.reply(`Parabéns você acaba de subir para o nível **${level + 1}**`);
   }
+  //-------------------------------------------------------//
 
-  //------------------------EXECUTE COMMANDS------------------------//
+  //------------------------EXECUTE COMMANDS--------------//
   const prefix = await server.prefix;
 
   if (message.content === `<@${client.user.id}>`)

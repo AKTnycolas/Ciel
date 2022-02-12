@@ -21,7 +21,7 @@ exports.run = async (client, message) => {
   > Fui Criado Por: **${client.users.cache.get(process.env.ownerId).tag}**
   > Narci Em: <t:${Math.ceil(client.user.createdAt.getTime() / 1000)}:f>
   > Tempo Acordado: **${parseIn(client.readyAt)}**
-  > Número de usuários: **${client.users.cache.size}**
+  > Número de Usuários: **${client.users.cache.size}**
   > Número de Servidores: **${client.guilds.cache.size}**
   > Data Da Última Atualização: **${lastUpdate}**
   `;
