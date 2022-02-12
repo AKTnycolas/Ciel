@@ -4,6 +4,7 @@ const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args, { server }) => {
   //-------------------BASE VARIABLES----------------------//
+  const { Guild } = client.database;
   const Emojis = new getter(client);
   const iconURL = message.guild.iconURL({ dynamic: true });
   //-------------------------------------------------------//
@@ -15,8 +16,9 @@ exports.run = async (client, message, args, { server }) => {
       .replace("true", "desativado")
       .replace("false", "ativado");
 
-    server.logs.toggle = !server.logs.toggle;
-    await server.save();
+    await Guild.findByIdAndUpdate(server._id, {
+      "logs.toggle": !server.logs.toggle,
+    });
     return message.reply(`O sistema de logs foi **${toggle}**!`);
   }
   //-------------------------------------------------------//
@@ -28,8 +30,9 @@ exports.run = async (client, message, args, { server }) => {
     else if (channel.id === server.logs.channel)
       return message.reply("Esse canal já está setado!");
 
-    server.logs.channel = channel.id;
-    await server.save();
+    await Guild.findByIdAndUpdate(server._id, {
+      "logs.channel": channe.id,
+    });
     return message.reply(`O canal <#${channel.id}> foi setado com sucesso!`);
   }
   //-------------------------------------------------------//

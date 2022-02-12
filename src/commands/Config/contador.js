@@ -4,6 +4,7 @@ const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message, args, { server }) => {
   //-------------------BASE VARIABLES----------------------//
+  const { Guild } = client.database;
   const Emojis = new getter(client);
   const iconURL = message.guild.iconURL({ dynamic: true });
   //-------------------------------------------------------//
@@ -15,8 +16,9 @@ exports.run = async (client, message, args, { server }) => {
       .replace("true", "desativado")
       .replace("false", "ativado");
 
-    server.count.toggle = !server.count.toggle;
-    await server.save();
+    await Guild.findByIdAndUpdate(server._id, {
+      "count.toggle": !server.count.toggle,
+    });
     return message.reply(`O sistema foi **${toggle}**!`);
   }
   //-------------------------------------------------------//
@@ -29,8 +31,9 @@ exports.run = async (client, message, args, { server }) => {
       return message.reply(
         "O máximo de caracteres é de **55**, eo mínimo é **10**"
       );
-    server.count.message = msg;
-    await server.save();
+    await Guild.findByIdAndUpdate(server._id, {
+      "count.message": msg,
+    });
     return message.reply("A sua mensagem foi setada com sucesso!");
   }
 
@@ -42,8 +45,9 @@ exports.run = async (client, message, args, { server }) => {
     else if (channel.id === server.count.channel)
       return message.reply("Esse canal já está setado!");
 
-    server.count.channel = channel.id;
-    await server.save();
+    await Guild.findByIdAndUpdate(server._id, {
+      "count.channel": channel.id,
+    });
     return message.reply(`O canal <#${channel.id}> foi setado com sucesso!`);
   }
   //-------------------------------------------------------//

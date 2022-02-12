@@ -1,5 +1,6 @@
 exports.run = async (client, message, args, { server }) => {
   //-------------------BASE VARIABLES----------------------//
+  const { Guild } = client.database;
   const prefix = args[0];
   //-------------------------------------------------------//
 
@@ -18,8 +19,9 @@ exports.run = async (client, message, args, { server }) => {
       message.reply("Esse prefixo já é padrão!");
     } else {
       message.reply("O prefix do servidor foi resetado com sucesso");
-      server.prefix = process.env.basePrefix;
-      await server.save();
+      await Guild.findByIdAndUpdate(server._id, {
+        "prefix": process.env.basePrefix,
+      });
     }
   }
   //-------------------------------------------------------//
@@ -32,8 +34,9 @@ exports.run = async (client, message, args, { server }) => {
       return message.reply("O prefix escolhido é mesmo de agora!");
     else {
       try {
-        server.prefix = prefix;
-        await server.save();
+        await Guild.findByIdAndUpdate(server._id, {
+          "prefix": prefix,
+        });
         message.reply(
           `O prefix do servidor foi alterado, o novo prefix é __**${prefix}**__`
         );

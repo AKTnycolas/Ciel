@@ -22,21 +22,22 @@ exports.run = async (client, message, args) => {
 
     if (command) {
       if (command.manu) {
-        command.manu = false;
-        command.reason = "";
-        await command.save();
+        await Command.findByIdAndUpdate(command._id, {
+          "manu": false,
+          "reason": ""
+        });
       } else {
-        command.manu = true;
-        command.reason = reason;
-        command.date = Date.now();
-        await command.save();
+        await Command.findByIdAndUpdate(command._id, {
+          "manu": true,
+          "reason": reason,
+          "date": Date.now(),
+        });
       }
     } else {
       await Command.create({ _id: cmdName, manu: true, reason });
     }
 
-    const toggle = command.manu
-      .toString()
+    const toggle = `${!command.manu}`
       .replace("true", "colocado na")
       .replace("false", "retirado da");
 
