@@ -66,6 +66,7 @@ module.exports = {
   // userinfo
   reference: "910923016773435392",
   person_programming: "909888620008181800",
+  medal: "910327561932910600",
 
   // github
   following: "931970991071043694",

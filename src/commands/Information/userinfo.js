@@ -2,14 +2,15 @@ const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const { dateAndDay } = require("../../utils/plugins/dates");
 const { getter } = require("../../utils/emojis");
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message, args, { user }) => {
   //------------------VARIÁVEIS BASES----------------------//
   const author =
     client.users.findByName(args[0]) ||
     client.users.cache.get(args[0]) ||
     message.mentions.users.first() ||
     message.author;
-
+  
+  const authorData = await client.database.User.findById(author.id);
   const iconURL = author.displayAvatarURL({ dynamic: true });
   const color = process.env.colorEmbed;
 
@@ -87,6 +88,7 @@ exports.run = async (client, message, args) => {
     .addField(`${Emojis.get("reference")} Servidor de Referência: `,referGuild.name)
     .addField(`${Emojis.get("name")} Tag do Usuário: `, author.tag)
     .addField(`${Emojis.get("edited")} Nickname: `, nickname)
+    .addField(`${Emojis.get("medal")} Reputações: `, `${authorData?.reps ?? 0}`)
     .addField(":date: Criação da Conta: ", createdAt)
     .addField(":date: Entrada no Server: ", joinedAt)
     .setColor(color)
