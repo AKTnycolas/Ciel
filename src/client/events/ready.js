@@ -42,7 +42,7 @@ module.exports = async (client) => {
       type: "PLAYING",
     },
   ];
-
+  
   setInterval(() => {
     const random = sentences[Math.floor(Math.random() * sentences.length)];
     client.user.setActivity(`${random.name}`, { type: `${random.type}` });
