@@ -42,7 +42,7 @@ module.exports = async (client) => {
       type: "PLAYING",
     },
   ];
-  /*
+  
   setInterval(() => {
     const random = sentences[Math.floor(Math.random() * sentences.length)];
     client.user.setActivity(`${random.name}`, { type: `${random.type}` });
@@ -56,7 +56,6 @@ module.exports = async (client) => {
     const random = avatars.images[Math.floor(Math.random() * avatars.length)];
     client.user.setAvatar(random);
   }, 600000);
-  */
 
   // links
   const guild = client.guilds.cache.get(process.env.supportGuild);
