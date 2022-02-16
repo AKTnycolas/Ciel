@@ -17,7 +17,8 @@ exports.run = async (client, message, args, { user }) => {
   } else {
     const sender = message.mentions.users.first();
 
-    if (!sender) return message.reply("Você não mencionou o usuário!");
+    if (!sender || sender.id === message.author.id)
+      return message.reply("Você não mencionou o usuário!");
 
     const senderData = await User.findById(sender.id);
 
