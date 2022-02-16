@@ -1,1 +1,1 @@
-cielBot: node index.js
+cielBot: node ./src/index.js
