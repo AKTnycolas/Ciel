@@ -37,5 +37,4 @@ module.exports.help = {
   aliases: ["limpar", "apagar"],
   usage: "clear [quantidade]",
   permissions: ["MANAGE_MESSAGES"],
-  category: "Moderation",
 };

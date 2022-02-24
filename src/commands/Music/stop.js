@@ -30,5 +30,4 @@ exports.help = {
   description: "Para de tocar música em um canal de voz",
   aliases: ["stop"],
   usage: "stop",
-  category: "Music",
 };

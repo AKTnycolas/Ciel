@@ -18,5 +18,4 @@ module.exports.help = {
   aliases: ["everyone"],
   usage: "antieveryone",
   permissions: ["MANAGE_GUILD"],
-  category: "Config",
 };

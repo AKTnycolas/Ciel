@@ -35,5 +35,4 @@ module.exports.help = {
   description: "Beije um usuário ( ͡° ͜ʖ ͡°)",
   aliases: ["beijar", "beijo"],
   usage: "kiss [user]",
-  category: "Fun",
 };

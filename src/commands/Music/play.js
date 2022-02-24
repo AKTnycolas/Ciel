@@ -89,5 +89,4 @@ exports.help = {
   description: "Toque uma música",
   aliases: ["tocar"],
   usage: "play [nome/url]",
-  category: "Music",
 };

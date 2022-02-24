@@ -94,5 +94,4 @@ exports.help = {
   description: "Envie dinheiro para outro usuário",
   aliases: ["pagar"],
   usage: "pay [usuário] [quantidade]",
-  category: "Economy",
 };

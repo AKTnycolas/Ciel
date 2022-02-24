@@ -50,5 +50,4 @@ exports.help = {
   description: "Executa codigos",
   aliases: [],
   usage: "eval [code]",
-  category: "Owner",
 };

@@ -38,5 +38,4 @@ exports.help = {
   description: "Veja o rank de coins",
   aliases: ["top", "rankcoins"],
   usage: "rank",
-  category: "Economy",
 };

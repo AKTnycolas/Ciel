@@ -32,5 +32,4 @@ module.exports.help = {
   description: "Faça um cafuné em um usuário",
   aliases: ["carinho", "kindness"],
   usage: "cafune [user]",
-  category: "Fun",
 };

@@ -34,5 +34,4 @@ module.exports.help = {
   description: "Veja os meus pings",
   aliases: ["pong", "ws", "ping-pong"],
   usage: "ping",
-  category: "Information",
 };

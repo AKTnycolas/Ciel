@@ -29,5 +29,4 @@ exports.help = {
   description: "Trabalhe!",
   aliases: ["trabalhar"],
   usage: "work",
-  category: "Economy",
 };

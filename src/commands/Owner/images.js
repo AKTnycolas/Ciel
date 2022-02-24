@@ -104,5 +104,4 @@ exports.help = {
   description: "Adicione ou remova uma imagem de um comando de diversão",
   aliases: ["image"],
   usage: "image [add|remove] [comando] [link]",
-  category: "Owner",
 };

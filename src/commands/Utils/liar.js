@@ -32,5 +32,4 @@ module.exports.help = {
   description: "Veja se o usuário mentiu que saiu do discord",
   aliases: ["fakeexit"],
   usage: "liar [user]",
-  category: "Fun",
 };

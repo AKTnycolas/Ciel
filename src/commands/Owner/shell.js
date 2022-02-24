@@ -35,5 +35,4 @@ exports.help = {
   description: "Executa codigos no terminal",
   aliases: [],
   usage: "shell [code]",
-  category: "Owner"
 };

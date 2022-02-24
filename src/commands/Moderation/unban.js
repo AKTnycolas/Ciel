@@ -35,5 +35,4 @@ module.exports.help = {
   aliases: ["banir"],
   usage: "unban [id]",
   permissions: ["BAN_MEMBERS"],
-  category: "Moderation",
 };

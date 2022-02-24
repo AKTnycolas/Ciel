@@ -97,5 +97,4 @@ exports.help = {
   description: "Use para reportar um bug",
   aliases: ["bug", "report"],
   usage: "bugreport [motivo]",
-  category: "Utils",
 };

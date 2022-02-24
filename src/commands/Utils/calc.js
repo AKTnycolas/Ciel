@@ -108,5 +108,4 @@ module.exports.help = {
   descriptio: "Execute uma calculadora",
   aliases: ["calculadora", "calcular"],
   usage: "calc",
-  category: "Utils",
 };

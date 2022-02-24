@@ -38,5 +38,4 @@ module.exports.help = {
   description: "Deixe uma imagem no tom de sépia",
   aliases: ["tomdemarrom"],
   usage: "sepia <anexo|user|id|nome|url>",
-  category: "Fun",
 };

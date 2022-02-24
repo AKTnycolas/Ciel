@@ -31,5 +31,4 @@ module.exports.help = {
   description: "Faça um imagem ficar borrada",
   aliases: ["borrar", "desfoque"],
   usage: "blur <anexo|user|id|nome|url>",
-  category: "Fun",
 };

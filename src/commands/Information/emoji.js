@@ -34,5 +34,4 @@ module.exports.help = {
   description: "Veja as informações de um emoji",
   aliases: ["emojiinfo", "infoemoji"],
   usage: "emoji [emoji]",
-  category: "Information",
 };

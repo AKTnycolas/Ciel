@@ -44,5 +44,4 @@ exports.help = {
   description: "Envie uma reputação para um usuário",
   aliases: ["reps", "reputation"],
   usage: "rep [menção]",
-  category: "Utils",
 };

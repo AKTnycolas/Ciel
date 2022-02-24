@@ -45,5 +45,4 @@ exports.help = {
   description: "Recarrega um comando",
   aliases: ["refresh"],
   usage: "reload [comando]",
-  category: "Owner",
 };

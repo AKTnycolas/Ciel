@@ -28,5 +28,4 @@ exports.help = {
   description: "Veja o seu saldo",
   aliases: ["saldo", "carteira", "balance"],
   usage: "atm <user>",
-  category: "Economy",
 };

@@ -62,5 +62,4 @@ exports.help = {
   aliases: ["silenciar"],
   usage: "mute [menção|id]",
   permissions: ["MODERATE_MEMBERS"],
-  category: "Moderation",
 };

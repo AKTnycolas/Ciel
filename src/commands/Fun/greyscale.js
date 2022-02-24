@@ -33,5 +33,4 @@ module.exports.help = {
   description: "Faça uma imagem ficar em tom de cinza",
   aliases: ["escaladecinza"],
   usage: "greyscale <anexo|user|id|nome|url>",
-  category: "Fun",
 };

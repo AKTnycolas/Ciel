@@ -31,5 +31,4 @@ module.exports.help = {
   description: "De um tapa em um usuário",
   aliases: ["tapa", "tampao"],
   usage: "slap [user]",
-  category: "Fun",
 };

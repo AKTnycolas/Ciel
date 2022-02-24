@@ -32,5 +32,4 @@ exports.help = {
   description: "Veja os status dos nodes do lavalink",
   aliases: ["node", "lavalink"],
   usage: "nodes",
-  category: "Owner",
 };
