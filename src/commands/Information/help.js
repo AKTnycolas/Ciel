@@ -16,6 +16,7 @@ exports.run = async (client, message, args) => {
   const Information = [];
   const Fun = [];
   const Moderation = [];
+  const Music = [];
   const Owner = [];
   const Utils = [];
 
@@ -29,6 +30,7 @@ exports.run = async (client, message, args) => {
       if (category === "Information") Information.push(name);
       if (category === "Fun") Fun.push(name);
       if (category === "Moderation") Moderation.push(name);
+      if (category === "Music") Music.push(name);
       if (category === "Owner") Owner.push(name);
       if (category === "Utils") Utils.push(name);
     });
@@ -107,6 +109,10 @@ exports.run = async (client, message, args) => {
     .addField(
       `${Emojis.get("fun")} Diversão: (${Fun.length})`,
       `\`\`\`\n${Fun.sort().join(" - ")}\`\`\``
+    )
+    .addField(
+      `:notes: Músicas: (${Music.length})`,
+      `\`\`\`\n${Music.sort().join(" - ")}\`\`\``
     )
     .addField(
       `${Emojis.get("utils")} Utils: (${Utils.length})`,

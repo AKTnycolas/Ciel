@@ -18,9 +18,9 @@ module.exports = {
   next: "910922776930549772",
   back: "910922770932707400",
   statistics: "940193735868825621",
-  
+
   // Economy
-  "wallet": "941138646373912597",
+  wallet: "941138646373912597",
 
   // manu
   update_system: "909904062743474187",
@@ -45,6 +45,10 @@ module.exports = {
   mongoDB: "910922783167504465",
   heart_mine: "910922755011133461",
   suport: "910922937022967888",
+
+  // play
+  playlist: "944306172230508554",
+  music: "944306188789641256",
 
   // help command
   moderation: "910048649462042664",

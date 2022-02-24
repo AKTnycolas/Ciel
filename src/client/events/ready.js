@@ -24,5 +24,7 @@ module.exports = async (client) => {
   // setting some things
   require("../../utils/plugins/getUser")(client);
   client.user.setStatus("dnd");
+  client.vulkava.start(client.user.id);
+  console.log("[VULKAVA] - conectado ao lavalink");
   console.log("ESTOU ON!");
 };
