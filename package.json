@@ -19,7 +19,8 @@
     "weather-js": "^2.0.0",
     "gifencoder": "^2.0.1",
     "figlet": "^1.5.2",
-    "mathjs": "^10.1.0"
+    "mathjs": "^10.1.0",
+    "vulkava": "^1.0.13"
   },
   "engines": {
     "node": "16.12.0"

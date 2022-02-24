@@ -15,6 +15,9 @@ module.exports = {
       case "Comando Com Error":
         color = "#FF0000";
         break;
+      case "Error No Vulkava":
+        color = "#cf1020";
+        break;
       case "Rejeição Não Tratada":
         color = "#FF8C00";
         break;

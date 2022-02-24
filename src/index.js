@@ -7,6 +7,7 @@ async function start() {
     global.fetch = require("node-fetch");
 
     await require("./database/index").start(client);
+    await require("./client/vulkava/index").start(client);
     await require("./client/fileLoader").load(client);
 
     await client.login(process.env.tokenBot);

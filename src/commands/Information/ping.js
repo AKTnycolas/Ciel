@@ -4,8 +4,7 @@ const { getter } = require("../../utils/emojis");
 
 exports.run = async (client, message) => {
   const { User } = client.database;
-  const embed = new MessageEmbed()
-    .setColor(process.env.colorEmbed);
+  const embed = new MessageEmbed().setColor(process.env.colorEmbed);
   const emojiLoading = new getter(client).get("loading");
 
   const startTime = process.hrtime();
@@ -20,7 +19,8 @@ exports.run = async (client, message) => {
   const pings = stripIndents`
   🏓 **|** Ping do bot: ${client.ws.ping}ms
   📡 **|** Latência do servidor: ${
-  m.createdTimestamp - message.createdTimestamp}ms
+    m.createdTimestamp - message.createdTimestamp
+  }ms
   :leaves: **|** Ping da database: ${pingDB}
   `;
 

@@ -66,5 +66,21 @@ module.exports = {
       `[NODEJS] - foram carregandos ${events.length} eventos do node`
     );
     //-------------------------------------------------------//
+
+    //--------------------VULKAVA EVENTS----------------------//
+    const vulkavaEvents = readdirSync("./src/client/vulkava/events");
+
+    vulkavaEvents.forEach((event) => {
+      const file = require(`./vulkava/events/${event}`);
+      const eventName = event.split(".")[0];
+
+      client.vulkava.on(eventName, file.bind(null, client));
+      delete require.cache[require.resolve(`./vulkava/events/${event}`)];
+    });
+
+    console.log(
+      `[VULKAVA] - foram carregandos ${events.length} eventos do vulkava`
+    );
+    //-------------------------------------------------------//
   },
 };
