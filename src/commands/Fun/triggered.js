@@ -56,5 +56,4 @@ module.exports.help = {
   description: "triggered",
   aliases: ["trigger"],
   usage: "triggered <anexo|user|id|nome|url>",
-  category: "Fun",
 };

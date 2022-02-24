@@ -42,5 +42,4 @@ exports.help = {
   description: "Veja os status da covid-19 pelo mundo",
   aliases: ["covid-19", "corona"],
   usage: "covid [<país>](https://www.sport-histoire.fr/pt/Geografia/Codigos_ISO_Paises.php)",
-  category: "Utils",
 };

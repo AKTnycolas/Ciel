@@ -50,5 +50,4 @@ exports.help = {
   description: "Saque dinheiro no banco",
   aliases: ["withdraw"],
   usage: "sacar [quantitade]",
-  category: "Economy",
 };

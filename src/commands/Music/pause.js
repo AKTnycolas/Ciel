@@ -18,5 +18,4 @@ exports.help = {
   description: "Pause a música",
   aliases: ["pausar"],
   usage: "pause",
-  category: "Music",
 };

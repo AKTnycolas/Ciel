@@ -72,5 +72,4 @@ module.exports.help = {
   aliases: ["log", "setlogs"],
   usage: "logs <status|canal>",
   permissions: ["MANAGE_GUILD"],
-  category: "Config",
 };

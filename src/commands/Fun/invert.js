@@ -30,5 +30,4 @@ module.exports.help = {
   description: "Inverta a cor de uma imagem",
   aliases: ["inverter"],
   usage: "invert <anexo|user|id|nome|url>",
-  category: "Fun",
 };

@@ -29,5 +29,4 @@ exports.help = {
   description: "Pegue a sua recompensa diária",
   aliases: ["diario"],
   usage: "daily",
-  category: "Economy",
 };

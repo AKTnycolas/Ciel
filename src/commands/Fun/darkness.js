@@ -29,5 +29,4 @@ module.exports.help = {
   description: "Escureça uma imagem",
   aliases: ["escurecer"],
   usage: "darkness <anexo|user|id|nome|url>",
-  category: "Fun",
 };

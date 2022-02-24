@@ -23,5 +23,4 @@ module.exports.help = {
   description: "Veja o avatar de um usuário",
   aliases: ["getavatar"],
   usage: "avatar <nome|id|user>",
-  category: "Information",
 };

@@ -32,5 +32,4 @@ module.exports.help = {
   description: "Veja o banner de um usuário",
   aliases: ["getbanner"],
   usage: "banner <nome|id|user>",
-  category: "Information",
 };

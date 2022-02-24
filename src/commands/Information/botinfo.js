@@ -40,5 +40,4 @@ exports.help = {
   description: "Veja as minhas informações",
   aliases: ["bot", "infobot", "helpbot"],
   usage: "botinfo",
-  category: "Information",
 };

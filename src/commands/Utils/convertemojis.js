@@ -9,5 +9,4 @@ exports.help = {
   description: "Converta textos em emojis",
   aliases: ["cvt", "cve"],
   usage: "convertemojis [texto]",
-  category: "Utils",
 };

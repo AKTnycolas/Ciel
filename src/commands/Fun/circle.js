@@ -30,5 +30,4 @@ module.exports.help = {
   description: "Faça um corte redondo em uma imagem",
   aliases: ["cortar"],
   usage: "circle <anexo|user|id|nome|url>",
-  category: "Fun",
 };

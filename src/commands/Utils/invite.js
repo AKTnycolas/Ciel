@@ -24,5 +24,4 @@ exports.help = {
   description: "Use esse comando para ver os meus links de invite",
   aliases: ["invites", "convidar"],
   usage: "invite",
-  category: "Utils",
 };

@@ -56,5 +56,4 @@ exports.help = {
   aliases: ["prefixo", "reset-prefix"],
   usage: "prefix <prefixo|reset>",
   permissions: ["MANAGE_GUILD"],
-  category: "Config",
 };

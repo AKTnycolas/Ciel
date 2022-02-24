@@ -36,5 +36,4 @@ module.exports.help = {
   description: "Pesquise um emoji usando o nome ou id",
   aliases: ["roubaremoji", "emoji2"],
   usage: "emojithief [nome|id]",
-  category: "Utils",
 };

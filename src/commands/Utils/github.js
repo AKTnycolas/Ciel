@@ -139,5 +139,4 @@ exports.help = {
   description: "Veja as informações de um usuário do github",
   aliases: [],
   usage: "github [nome de usuário]",
-  category: "Utils",
 };

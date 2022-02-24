@@ -50,5 +50,4 @@ exports.help = {
   description: "Veja a lista de músicas",
   aliases: ["lista", "fila", "playlist"],
   usage: "queue",
-  category: "Music",
 };

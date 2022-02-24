@@ -30,5 +30,4 @@ module.exports.help = {
   description: "Abrace um usuário",
   aliases: ["abracar", "abraco"],
   usage: "hug [user]",
-  category: "Fun",
 };

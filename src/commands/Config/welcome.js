@@ -103,5 +103,4 @@ module.exports.help = {
   aliases: ["wel"],
   usage: "welcome <status|message|canal>",
   permissions: ["MANAGE_GUILD"],
-  category: "Config",
 };

@@ -208,5 +208,4 @@ module.exports.help = {
   description: "Veja as informações desse servidor",
   aliases: ["server", "info-server"],
   usage: "serverinfo",
-  category: "Information",
 };

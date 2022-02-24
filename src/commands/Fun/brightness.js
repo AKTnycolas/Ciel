@@ -29,5 +29,4 @@ module.exports.help = {
   description: "Faça uma imagem ficar em tom de branco",
   aliases: ["escaladecinza"],
   usage: "brightness <anexo|user|id|nome|url>",
-  category: "Fun",
 };

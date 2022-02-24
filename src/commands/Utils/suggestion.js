@@ -97,5 +97,4 @@ exports.help = {
   description: "Use para enviar uma sugestão",
   aliases: ["sug", "sugestão"],
   usage: "suggestion [motivo]",
-  category: "Utils",
 };

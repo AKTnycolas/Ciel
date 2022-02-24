@@ -19,6 +19,7 @@ module.exports = {
         const archive = require(`../commands/${folder}/${file}`);
         const cmdName = file.split(".")[0];
         const props = archive.help;
+        archive.help.category = folder;
 
         client.commands.set(cmdName, archive);
         props.aliases.forEach((alias) => {
@@ -84,3 +85,4 @@ module.exports = {
     //-------------------------------------------------------//
   },
 };
+

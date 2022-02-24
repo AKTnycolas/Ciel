@@ -16,5 +16,4 @@ module.exports.help = {
   description: "Veja quanto tempo estou online",
   aliases: ["tempoatividade", "upt"],
   usage: "uptime",
-  category: "Information",
 };

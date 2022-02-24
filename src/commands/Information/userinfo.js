@@ -184,5 +184,4 @@ exports.help = {
   description: "Veja as informações de um usuário",
   aliases: ["user", "info-user", "getuser"],
   usage: "userinfo <nome|id|user>",
-  category: "Information",
 };

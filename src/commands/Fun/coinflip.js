@@ -26,5 +26,4 @@ module.exports.help = {
   description: "jogue cara ou coroa",
   aliases: ["cara", "coroa", "caraoucoroa"],
   usage: "coinflip <cara|coroa>",
-  category: "Fun",
 };

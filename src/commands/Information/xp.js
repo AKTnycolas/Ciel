@@ -20,5 +20,4 @@ module.exports.help = {
   description: "Veja o seu xp",
   aliases: ["experiencia"],
   usage: "xp",
-  category: "Information",
 };

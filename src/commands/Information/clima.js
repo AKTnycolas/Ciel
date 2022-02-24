@@ -31,5 +31,4 @@ module.exports.help = {
   description: "Veja a previsão do tempo de uma cidade ou estado",
   aliases: ["climate", "forecast"],
   usage: "clima [cidade|estado]",
-  category: "Information",
 };

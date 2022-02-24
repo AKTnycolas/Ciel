@@ -137,5 +137,4 @@ exports.help = {
   description: "Veja a minha lista de Comandos",
   aliases: ["commands"],
   usage: "help <command>",
-  category: "Information",
 };

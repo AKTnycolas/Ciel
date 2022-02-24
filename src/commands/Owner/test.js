@@ -106,5 +106,4 @@ exports.help = {
   description: "test",
   aliases: [],
   usage: "test",
-  category: "Owner",
 };

@@ -90,5 +90,4 @@ exports.help = {
   description: "Coloque um comando em manutenção",
   aliases: ["manutencao", "maintenance"],
   usage: "manu [comando]",
-  category: "Owner",
 };

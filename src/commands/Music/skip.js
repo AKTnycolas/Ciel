@@ -30,5 +30,4 @@ exports.help = {
   description: "Pule uma música",
   aliases: ["pular"],
   usage: "skip",
-  category: "Music",
 };

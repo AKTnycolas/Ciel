@@ -89,5 +89,4 @@ module.exports.help = {
   aliases: ["cont", "counter"],
   usage: "contador <status|mensagem>",
   permissions: ["MANAGE_GUILD"],
-  category: "Config",
 };

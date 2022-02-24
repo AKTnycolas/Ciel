@@ -63,5 +63,4 @@ exports.help = {
   aliases: ["desmutar"],
   usage: "unmute [menção|id]",
   permissions: ["MODERATE_MEMBERS"],
-  category: "Moderation",
 };

@@ -57,5 +57,4 @@ exports.help = {
   description: "Veja as minhas estatísticas",
   aliases: ["sts", "estatísticas"],
   usage: "status",
-  category: "Information",
 };

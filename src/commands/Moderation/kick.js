@@ -36,5 +36,4 @@ exports.help = {
   aliases: ["kickar"],
   usage: "kick [menção|id]",
   permissions: ["KICK_MEMBERS"],
-  category: "Moderation",
 };

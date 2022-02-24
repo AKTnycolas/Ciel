@@ -50,5 +50,4 @@ exports.help = {
   description: "Deposite dinheiro no banco",
   aliases: ["dep", "deposit"],
   usage: "depisitar [quantitade]",
-  category: "Economy",
 };

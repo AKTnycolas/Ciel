@@ -21,5 +21,4 @@ module.exports.help = {
   description: "Escreva uma mensagem no estilo ascii",
   aliases: [],
   usage: "ascii [texto]",
-  category: "Utils",
 };

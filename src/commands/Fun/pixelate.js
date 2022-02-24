@@ -31,5 +31,4 @@ module.exports.help = {
   description: "Faça uma imagem ficar pixelada",
   aliases: ["pixel", "pixels"],
   usage: "pixelate <anexo|user|id|nome|url>",
-  category: "Fun",
 };

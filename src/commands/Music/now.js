@@ -40,5 +40,4 @@ exports.help = {
   description: "Veja informações da música que tá tocando",
   aliases: ["np", "nowplaying"],
   usage: "now",
-  category: "Music",
 };

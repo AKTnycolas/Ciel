@@ -75,5 +75,4 @@ exports.help = {
   description: "Veja|adicione|remova usuários na blacklist",
   aliases: ["black"],
   usage: "blacklist <user|id>",
-  category: "Owner",
 };
