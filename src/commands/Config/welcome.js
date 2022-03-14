@@ -22,7 +22,7 @@ exports.run = async (client, message, args, { server }) => {
       return message.reply("Esse canal já está setado atualmente!");
     }
 
-    await Guild.findByIdAndUpdate({
+    await Guild.findByIdAndUpdate(server._id{
       "welcome.channel": channel.id,
     });
 
