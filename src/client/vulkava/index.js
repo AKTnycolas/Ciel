@@ -7,9 +7,9 @@ module.exports = {
       nodes: [
         {
           id: "Node 1",
-          hostname: "losingtime.dpaste.org",
-          port: 2124,
-          password: "SleepingOnTrains",
+          hostname: "lavalink.oops.wtf",
+          port: 2000,
+          password: "www.freelavalink.ga",
           secure: false,
         },
       ],
