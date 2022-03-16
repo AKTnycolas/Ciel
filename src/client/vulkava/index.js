@@ -6,7 +6,7 @@ class oi {
   }
   
   get oii() {
-    return this.data[0]
+    return this.data
   }
 }
 
