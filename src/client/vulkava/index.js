@@ -1,20 +1,22 @@
-const { Client } = require("discord.js");
-require("dotenv").config();
+const { Vulkava } = require("vulkava");
 
-async function start() {
-  try {
-    const client = new Client({ intents: 70655 });
-    global.fetch = require("node-fetch");
-
-    await require("./database/index").start(client);
-    await require("./client/vulkava/index").start(client);
-    await require("./client/fileLoader").load(client);
-
-    await client.login(process.env.tokenBot);
-    console.log("[INDEX] - index carregada com sucesso");
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-start();
+module.exports = {
+  async start(client) {
+    // this is a public lavalink, I used it for demo
+    client.vulkava = new Vulkava({
+      nodes: [
+        {
+          id: "Node 1",
+          hostname: "losingtime.dpaste.org",
+          port: 2124,
+          password: "SleepingOnTrains",
+          secure: false,
+        },
+      ],
+      sendWS: (guildId, payload) => {
+        const guild = client.guilds.cache.get(guildId);
+        if (guild) guild.shard.send(payload);
+      },
+    });
+  },
+};
