@@ -70,9 +70,12 @@ exports.run = async (client, message, args) => {
         components: [],
       });
 
-      await channel.send({
+      const newMsg = await channel.send({
         embeds: [embed],
       });
+
+      await newMsg.react(Emojis.get("right"));
+      await newMsg.react(Emojis.get("wrong"));
     } else {
       await msg.edit({
         content: "Ok, não foi enviado",
