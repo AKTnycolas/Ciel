@@ -1,3 +1,4 @@
+const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const { notifier } = require("../../utils/plugins/notifier");
 const { getter } = require("../../utils/emojis");
 
@@ -12,6 +13,7 @@ module.exports = async (client, message) => {
   const author = message.author;
   const guild = message.guild;
   const member = message.member;
+
   const Emojis = new getter(client);
   //-------------------------------------------------------//
 
@@ -76,7 +78,9 @@ module.exports = async (client, message) => {
 
       let msg =
         server.levelMessage.message === "nenhuma"
-          ? `${Emojis.get("levelUp")} | {member} vc chegou ao lvl **${level}** agora vc precisa de ${nextLevel}xp para chegar ao próximo lvl`
+          ? `${Emojis.get(
+              "levelUp"
+            )} | {member} vc chegou ao lvl **${level}** agora vc precisa de ${nextLevel}xp para chegar ao próximo lvl`
           : server.levelMessage.message;
 
       msg = msg
@@ -89,14 +93,40 @@ module.exports = async (client, message) => {
   }
   //-------------------------------------------------------//
 
-  //------------------------EXECUTE COMMANDS--------------//
+  //------------------------MENTIONED CASE-----------------//
   const prefix = await server.prefix;
 
-  if (message.content === `<@${client.user.id}>`)
-    return message.reply(
-      `Olá ${message.author}, o meu prefix nesse servidor é __**${prefix}**__`
-    );
-  else if (!message.content.startsWith(prefix)) return;
+  if (message.content === `<@${client.user.id}>`) {
+    const row = new MessageActionRow().addComponents([
+      new MessageButton()
+        //.setEmoji(Emojis.get("next"))
+        .setLabel("Suporte")
+        .setURL(client.invites.suport)
+        .setStyle("LINK"),
+      new MessageButton()
+        //.setEmoji(Emojis.get("back"))
+        .setLabel("Convite")
+        .setURL(client.invites.me)
+        .setStyle("LINK"),
+    ]);
+
+    const embed = new MessageEmbed()
+      .setDescription(
+        `${Emojis.get("rimuru")} | Olá ${author}, meu nome é ${
+          client.user.username
+        } obrigado por me usar, meu prefixo aqui é ${prefix}`
+      )
+      .setColor(process.env.colorEmbed);
+
+    return message.reply({
+      embeds: [embed],
+      components: [row],
+    });
+  }
+  //-------------------------------------------------------//
+
+  //------------------------EXECUTE COMMANDS--------------//
+  if (!message.content.startsWith(prefix)) return;
   else if (message.content === prefix) return;
 
   const messageSplit = message.content.split(" ");
