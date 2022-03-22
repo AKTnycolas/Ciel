@@ -23,7 +23,7 @@ exports.run = async (client, message) => {
 
   // memory information
   const memory = process.memoryUsage();
-  const totalMemory = (totalmem() / 1024 / 1024).toFixed(2) + "MB";
+  const totalMemory = (totalmem() / 1024 / 1024 / 1024).toFixed(2) + "GB";
   const usedMemory = (memory.heapUsed / 1024 / 1024).toFixed(2) + "MB";
 
   const botinfo = stripIndents`

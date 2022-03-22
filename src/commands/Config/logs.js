@@ -31,7 +31,7 @@ exports.run = async (client, message, args, { server }) => {
       return message.reply("Esse canal já está setado!");
 
     await Guild.findByIdAndUpdate(server._id, {
-      "logs.channel": channe.id,
+      "logs.channel": channel.id,
     });
     return message.reply(`O canal <#${channel.id}> foi setado com sucesso!`);
   }
