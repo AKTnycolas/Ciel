@@ -20,7 +20,7 @@ exports.run = async (client, message, args, { user }) => {
       "cooldowns.daily": Date.now(),
     });
 
-    message.reply(`Hoje você quanhou **${abrev(coins)}** coins`);
+    message.reply(`Hoje você qanhou **${abrev(coins)}** coins`);
   }
 };
 

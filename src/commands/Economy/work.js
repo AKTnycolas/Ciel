@@ -20,7 +20,7 @@ exports.run = async (client, message, args, { user }) => {
       "cooldowns.work": Date.now(),
     });
 
-    message.reply(`Hoje você trabalhou e quanhou **${abrev(coins)}** coins`);
+    message.reply(`Hoje você trabalhou e qanhou **${abrev(coins)}** coins`);
   }
 };
 
