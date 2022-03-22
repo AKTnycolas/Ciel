@@ -3,14 +3,12 @@ const { stripIndents } = require("common-tags");
 
 exports.run = async (client, message) => {
   const users = await client.database.User.find();
-  /*
   const removePoor =
     users.filter((a) => a.balance.coins + a.balance.bank > 50);
-  */
 
   const get = (id) => client.users.cache.get(id);
 
-  const tops = users
+  const tops = removePoor
     .sort((x, y) =>
       (y.balance.coins + y.balance.bank) - (x.balance.coins + x.balance.bank)
     )

@@ -1,4 +1,5 @@
 const { notifier } = require("../../utils/plugins/notifier");
+const { getter } = require("../../utils/emojis");
 
 module.exports = async (client, message) => {
   //------------------------VERIFICATIONS------------------------//
@@ -11,6 +12,7 @@ module.exports = async (client, message) => {
   const author = message.author;
   const guild = message.guild;
   const member = message.member;
+  const Emojis = new getter(client);
   //-------------------------------------------------------//
 
   //----------------CREATE CASE DOESN'T EXIST--------------//
@@ -67,7 +69,23 @@ module.exports = async (client, message) => {
       "exp.nextLevel": nextLevel * level,
     });
 
-    message.reply(`Parabéns você acaba de subir para o nível **${level + 1}**`);
+    if (server.levelMessage.toggle) {
+      const channel =
+        client.channels.cache.get(server.levelMessage.channel) ||
+        message.channel;
+
+      let msg =
+        server.levelMessage.message === "nenhuma"
+          ? `${Emojis.get("levelUp")} | {member} vc chegou ao lvl **${level}** agora vc precisa de ${nextLevel}xp para chegar ao próximo lvl`
+          : server.levelMessage.message;
+
+      msg = msg
+        .replace(/{member}/g, `<@${member.id}>`)
+        .replace(/{level}/g, user.exp.xp)
+        .replace(/{nextLevel}/g, user.exp.nextLevel);
+
+      await channel.send(msg).catch((o_O) => o_O);
+    }
   }
   //-------------------------------------------------------//
 

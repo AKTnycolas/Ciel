@@ -13,6 +13,11 @@ const schemaGuild = new Schema({
     message: { type: String, default: "nenhuma" },
     channel: { type: String, default: "nenhuma" },
   },
+  levelMessage: {
+    toggle: { type: Boolean, default: true },
+    message: { type: String, default: "nenhuma" },
+    channel: { type: String, default: "nenhuma" }
+  },
   logs: {
     toggle: { type: Boolean, default: false },
     channel: { type: String, default: "nenhum" },
