@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
+
 const { MessageEmbed } = require("discord.js");
 const { inspect } = require("util");
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message, args, { user, server }) => {
   //------------------------VERIFICATIONS------------------------//
   if (!args[0]) return message.reply("Nenhum Argumento Foi Passado");
   //-------------------------------------------------------------//

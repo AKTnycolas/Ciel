@@ -20,9 +20,14 @@ module.exports = {
   statistics: "940193735868825621",
   levelUp: "955761369364430879",
   rimuru: "955897674140385303",
+  level: "957452034863419432",
 
   // Economy
   wallet: "941138646373912597",
+  employees: "957451144660135977",
+  
+  // companies
+  company: "957198444638920725",
 
   // manu
   update_system: "909904062743474187",

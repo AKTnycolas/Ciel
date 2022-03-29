@@ -1,5 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Collection } = require("discord.js");
 const { getter } = require("../../utils/emojis");
+const { readdirSync } = require("fs");
 
 exports.run = async (client, message, args) => {
   //---------------------SOME CHECKS-----------------------------//
@@ -18,19 +19,38 @@ exports.run = async (client, message, args) => {
     embed.setDescription(`O Comando **${args[0]}** não foi encontrado`);
     return message.reply({ embeds: [embed] });
   }
-  const path = `../../commands/${cmd.help.category}/${cmd.help.name}`;
+
+  const { category, name, isSub, ref } = cmd.help;
+  path = `../../commands/${category}/${name}`;
 
   //-------------------------------------------------------------//
   try {
     delete require.cache[require.resolve(path)];
-    client.commands.delete(cmd.help.name);
+    client.commands.delete(name);
 
     const newCommand = require(path);
-    client.commands.set(cmd.help.name, newCommand);
+    newCommand.help.category = category;
+    client.commands.set(name, newCommand);
 
-    embed.setDescription(
-      `O comando ${cmd.help.name} foi recarregado com sucesso`
-    );
+    if (isSub) {
+      const subNames = readdirSync(`./src/commands/${category}/${ref}/`);
+      const subs = new Collection();
+
+      subNames.forEach((sub) => {
+        const subPath = `../${category}/${ref}/` + sub;
+
+        delete require.cache[require.resolve(subPath)];
+        const subCommand = require(subPath);
+        const subName = sub.split(".")[0];
+
+        subs.set(subName, subCommand);
+        delete require.cache[require.resolve(subPath)];
+      });
+
+      client.subCommands.set(ref, subs);
+    }
+
+    embed.setDescription(`O comando ${name} foi recarregado com sucesso`);
     message.reply({ embeds: [embed] });
   } catch (err) {
     embed.setDescription(err.message);
