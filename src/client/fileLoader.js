@@ -6,6 +6,7 @@ module.exports = {
     //------------------VARIÁVEIS BASES----------------------//
     client.commands = new Collection();
     client.aliases = new Collection();
+    client.subCommands = new Collection();
     client.cooldowns = [];
     //-------------------------------------------------------//
 
@@ -13,13 +14,34 @@ module.exports = {
     const folders = await readdirSync("./src/commands/");
 
     for (const folder of folders) {
-      const commands = readdirSync(`./src/commands/${folder}`);
+      const commands = readdirSync(`./src/commands/${folder}`).filter((name) =>
+        name.endsWith(".js")
+      );
 
       commands.forEach((file) => {
         const archive = require(`../commands/${folder}/${file}`);
         const cmdName = file.split(".")[0];
         const props = archive.help;
         archive.help.category = folder;
+
+        if (props.isSub) {
+          const subNames = readdirSync(
+            `./src/commands/${folder}/${props.ref}/`
+          );
+          const subs = new Collection();
+
+          subNames.forEach((sub) => {
+            const subCommand = require(`../commands/${folder}/${props.ref}/${sub}`);
+            const subName = sub.split(".")[0];
+
+            subs.set(subName, subCommand);
+            delete require.cache[
+              require.resolve(`../commands/${folder}/${props.ref}/${sub}`)
+            ];
+          });
+
+          client.subCommands.set(props.ref, subs);
+        }
 
         client.commands.set(cmdName, archive);
         props.aliases.forEach((alias) => {
@@ -85,4 +107,3 @@ module.exports = {
     //-------------------------------------------------------//
   },
 };
-
