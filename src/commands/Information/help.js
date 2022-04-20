@@ -1,136 +1,142 @@
-const { MessageEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
+const { codeBlock } = require("@discordjs/builders");
 const { getter } = require("../../utils/emojis");
+const { readdirSync } = require("fs");
+const {
+  MessageEmbed,
+  MessageActionRow,
+  MessageSelectMenu,
+} = require("discord.js");
 
 exports.run = async (client, message, args) => {
-  //---------------------COMMAND VARIABLES-----------------------//
-  const iconURL = client.user.displayAvatarURL({ dynamic: true });
   const Emojis = new getter(client);
+  const oneCommand = client.commands.get(
+    client.aliases.get(args[0]) || args[0]
+  );
 
-  const embed = new MessageEmbed()
-    .setAuthor({ name: "Central De Comandos", iconURL })
-    .setColor(process.env.colorEmbed);
+  if (oneCommand) {
+    const { name, description, aliases, usage } = oneCommand.help;
 
-  const Config = [];
-  const Economy = [];
-  const Information = [];
-  const Fun = [];
-  const Moderation = [];
-  const Music = [];
-  const Owner = [];
-  const Utils = [];
+    const embed = new MessageEmbed().addFields([
+      {
+        name: `${Emojis.get("name")} Nome Original: `,
+        value: name,
+      },
+      {
+        name: `${Emojis.get("description")} Descrição: `,
+        value: description,
+      },
+      {
+        name: `${Emojis.get("DISCORD_PARTNER_ID")} Aliases: `,
+        value: aliases.join(", ") || "Não tem aliases",
+      },
+      {
+        name: `${Emojis.get("edited")} Modos de Usar: `,
+        value: process.env.basePrefix + usage,
+      },
+    ]);
 
-  client.commands
-    .map((cmd) => cmd)
-    .forEach((cmd) => {
-      const { category, name } = cmd.help;
-
-      if (category === "Config") Config.push(name);
-      if (category === "Economy") Economy.push(name);
-      if (category === "Information") Information.push(name);
-      if (category === "Fun") Fun.push(name);
-      if (category === "Moderation") Moderation.push(name);
-      if (category === "Music") Music.push(name);
-      if (category === "Owner") Owner.push(name);
-      if (category === "Utils") Utils.push(name);
-    });
-  //-------------------------------------------------------------//
-
-  //--------------------------COMMAND----------------------------//
-  if (args[0]) {
-    const cmd = client.commands.get(client.aliases.get(args[0]) || args[0]);
-
-    if (cmd) {
-      // if the command is restricted
-      if (
-        cmd.help.category === "Owner" &&
-        message.author.id !== process.env.ownerId
-      ) {
-        embed.setDescription(`O comando **${args[0]}** não foi encontrado.`);
-        return message.reply({
-          embeds: [embed],
-        });
-      }
-
-      // command alone
-      const { name, description, aliases, usage } = cmd.help;
-
-      embed
-        .addField(`${Emojis.get("name")} Nome Original: `, name)
-        .addField(`${Emojis.get("description")} Descrição: `, description)
-        .addField(
-          `${Emojis.get("DISCORD_PARTNER_ID")} Aliases: `,
-          aliases.join(", ") || "Não tem aliases"
-        )
-        .addField(
-          `${Emojis.get("edited")} Modos de Usar: `,
-          process.env.basePrefix + usage
-        );
-
-      return message.reply({
-        embeds: [embed],
-      });
-    } else {
-      // if you don't find the command
-      embed.setDescription(
-        `${Emojis.get("no")} O comando **${args[0]}** não foi encontrado.`
-      );
-      return message.reply({
-        embeds: [embed],
-      });
-    }
+    return message.reply({ embeds: [embed] });
   }
 
-  // just help
-  embed
-    .setDescription(stripIndents`
-    Olá, aqui estão todos os meu comandos
-    somando um total de **${client.commands.size}**, caso encontre
-    algum bug, use o comando **bugreport**, caso
-    queria deixar uma sugestão use o comando **suggestion**
-        ㅤ
-    `
-    )
-    .addField(
-      `${Emojis.get("settingsId")} Configuração: (${Config.length})`,
-      `\`\`\`\n${Config.sort().join(" - ")}\`\`\``
-    )
-    .addField(
-      `${Emojis.get("moderation")} Moderação: (${Moderation.length})`,
-      `\`\`\`\n${Moderation.sort().join(" - ")}\`\`\``
-    )
-    .addField(
-      `${Emojis.get("Economy")} Economia: (${Economy.length})`,
-      `\`\`\`\n${Economy.sort().join(" - ")}\`\`\``)
-    .addField(
-      `${Emojis.get("information")} Informação: (${Information.length})`,
-      `\`\`\`\n${Information.sort().join(" - ")}\`\`\``
-    )
-    .addField(
-      `${Emojis.get("fun")} Diversão: (${Fun.length})`,
-      `\`\`\`\n${Fun.sort().join(" - ")}\`\`\``
-    )
-    .addField(
-      `:notes: Músicas: (${Music.length})`,
-      `\`\`\`\n${Music.sort().join(" - ")}\`\`\``
-    )
-    .addField(
-      `${Emojis.get("utils")} Utils: (${Utils.length})`,
-      `\`\`\`\n${Utils.sort().join(" - ")}\`\`\``
-    );
+  const commands = client.commands.map((cmd) => cmd);
+  const categoryNames = await readdirSync("./src/commands/");
+  const categories = {};
+  const embeds = {};
 
-  // in case it's me
-  if (message.author.id == process.env.ownerId)
+  for (const command of commands) {
+    const { category, name } = command.help;
+    categories[category] = categories[category] || [];
+    categories[category].push(name);
+  }
+
+  for (const category in categories) {
+    const embed = new MessageEmbed()
+      .setAuthor({ name: category, iconURL: Emojis.get(category).url })
+      .setDescription(`Todos os comandos da categoria de ${category}`)
+      .setColor(process.env.colorEmbed);
+
     embed.addField(
-      `${Emojis.get("coroa")} Owners: (${Owner.length})`,
-      `\`\`\`\n${Owner.sort().join(" - ")}\`\`\``
+      "Comandos",
+      codeBlock(categories[category].sort().join(" ~ "))
     );
+    embeds[category] = embed;
+  }
 
-  return message.reply({
-    embeds: [embed],
+  //~~~~~~~~~~~~~~~~~~~~~~~Main Part~~~~~~~~~~~~~~~~~~~~~//
+  const description =
+    "Olá, aqui estão todos os meus comandos " +
+    `somando um total de **${client.commands.size}**, ` +
+    "caso encontre algum bug, use comando " +
+    "bugreport, caso você quiser deixar uma sugestão, " +
+    "use o comando suggestion";
+
+  const mainEmbed = new MessageEmbed()
+    .setAuthor({
+      name: `${client.user.username} commands`,
+      iconURL: Emojis.get("home").url,
+    })
+    .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+    .setDescription(description)
+    .setColor(process.env.colorEmbed);
+
+  const row = new MessageActionRow().addComponents(
+    new MessageSelectMenu()
+      .setCustomId("HELP_MENU")
+      .setPlaceholder("Selecione uma categoria")
+      .addOptions([
+        {
+          label: "Menu Principal",
+          description: "Volte para a o menu principal",
+          value: "home",
+          emoji: Emojis.get("home"),
+        },
+        ...categoryNames.map((c) => {
+          return {
+            label: c,
+            description: `Aqui tem ${categories[c].length} comandos`,
+            value: c,
+            emoji: Emojis.get(c),
+          };
+        }),
+      ])
+  );
+
+  const msg = await message.reply({
+    embeds: [mainEmbed],
+    components: [row],
+    fetchReply: true,
+  });
+
+  //~~~~~~~~~~~~~~~~~~~~~~~Collector~~~~~~~~~~~~~~~~~~~~~//
+  const collector = msg.createMessageComponentCollector({
+    componentType: "SELECT_MENU",
+    time: 120000,
+  });
+
+  collector.on("collect", async (i) => {
+    if (i.user.id !== message.author.id) {
+      await i.reply({
+        content: "Apenas quem executou o comando pode usar ele",
+        ephemeral: true,
+      });
+      return;
+    }
+    const chosenCategory = i.values[0];
+    await msg.edit({
+      embeds: [embeds[chosenCategory] || mainEmbed],
+      components: [row],
+    });
+  });
+
+  collector.on("end", async () => {
+    await msg
+      .edit({
+        embeds: [mainEmbed],
+        components: [],
+      })
+      .catch((o_O) => o_O);
   });
 };
-//-------------------------------------------------------------//
 
 exports.help = {
   name: "help",
