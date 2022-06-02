@@ -8,7 +8,7 @@ module.exports = async (client) => {
   let suport = guild.invites.cache.find((i) => i.maxAge === 0);
 
   if (!suport) {
-    const randomChannel = guild.channels.cache.first();
+    const randomChannel = await guild.channels.cache.find(chn => chn.isText());
     const link = await guild.invites.create(randomChannel.id, { maxAge: 0 });
     suport = link;
   }
