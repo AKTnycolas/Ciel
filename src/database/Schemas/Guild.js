@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const schemaGuild = new Schema({
   _id: { type: String, require: true },
+  webhookUrl: String,
   prefix: { type: String, default: process.env.basePrefix },
   welcome: {
     toggle: { type: Boolean, default: false },

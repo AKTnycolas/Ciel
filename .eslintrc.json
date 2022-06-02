@@ -16,7 +16,6 @@
     "no-unused-vars": "error",
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "comma-style": ["error", "last"],
-    "max-len": ["error", { "code": 80 }],
     "no-shadow": ["error", { "allow": ["err", "resolve", "reject"] }],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
